@@ -12,8 +12,7 @@ const path = require('path');
 const LevelStore = require('level-session-store')(session);
 
 const log = debug('ta:server');
-const log_req_api = debug('ta:req:api');
-const log_req_static = debug('ta:req:static');
+const log_req = debug('ta:req');
 
 const utilmisc = require('./util/misc');
 
@@ -21,8 +20,6 @@ const app = express();
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/view'));
-app.use(express.static(__dirname + '/public'));
-
 
 app.use(cors({credentials: true, origin: true, maxAge: 7200}));
 
@@ -49,19 +46,16 @@ const morgan_format = '[:reqid] :method :url :status :response-time ms - :res[co
 
 app.use('/api', bodyParser.json());
 app.use('/api', bodyParser.urlencoded());
-app.use('/api', morgan(morgan_format, {stream: {write: msg => log_req_api(msg.trimEnd())}}));
+app.use('/api', morgan(morgan_format, {stream: {write: msg => log_req(msg.trimEnd())}}));
 require('./express_routes').setup(app);
-app.use(utilmisc.routeUnless('/api', morgan(morgan_format, {stream: {write: msg => log_req_static(msg.trimEnd())}})));
-app.use(utilmisc.routeUnless('/api', express.static('public')));
-
-app.use('/', (err, req, res, next) => {
+app.use('/api', (err, req, res, next) => {
     log('Uncaught Error: ', err);
     return res.json({reqid: req.reqid, code: 500, msg: 'Unknown error', err: err.message});
 });
 
-app.get('/', function(req, res) {
-    res.render(__dirname + '/views/index.ejs');
-});
+require('./express_ejs').setup(app);
+
+app.use(express.static(__dirname + '/public'));
 
 exports.start = function () {
     const listener = app.listen(process.env.PORT, function () {

@@ -5,7 +5,6 @@ const log = require('../util/req-log')('ta:ctrl:user');
 const {Validator} = require('node-input-validator');
 
 const db = require('../db');
-const passutil = require('../util/password');
 const utilmisc = require('../util/misc');
 
 router.get('/get', ash(async (req, res, next) => {

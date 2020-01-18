@@ -1,4 +1,4 @@
-const {promisify} = require('util')
+const {promisify} = require('util');
 
 function listProps(ret, obj) {
     if (obj == null) return;
