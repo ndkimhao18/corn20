@@ -6,6 +6,7 @@ const AutoIndex = require('level-auto-index');
 const sub = require('subleveldown');
 const keyReducer = AutoIndex.keyReducer;
 const promisify = require('./util/promisify');
+const utilmisc = require('./util/misc');
 
 const _db = exports._db = level('DATA/main_db');
 exports.sub = sub.bind(null, exports._db);
@@ -26,7 +27,10 @@ function augObj(db) {
             if (e.type === 'NotFoundError') return null;
             else throw e;
         }
-    }
+    };
+    db.get_all_async = function (v) {
+        return utilmisc.streamToObject(db.createReadStream());
+    };
 }
 
 function createDb(dbname, indexes) {
@@ -43,12 +47,16 @@ function createDb(dbname, indexes) {
         }
         const by = db['by' + capitalize(idxName)] = AutoIndex(db, sub(db, idxName), keyRed);
         augObj(by);
-        by.getAll = function (v) {
-            return by.createReadStream({start: v, end: v + '~'});
+        by.get_all_async = function (v) {
+            if (v === undefined) {
+                return utilmisc.streamToObject(by.createReadStream());
+            }
+            return utilmisc.streamToObject(by.createReadStream({start: v + '#', end: v + '#~'}));
         }
     });
     augObj(db);
 }
+augObj(_db);
 
 // user_id, full_name, courses: {course_id: <role>}
 createDb('users', ['email']);

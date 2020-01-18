@@ -15,8 +15,8 @@ router.get('/get', ash(async (req, res, next) => {
         //c: await db.users.byEmail.geta("123"),
         d: await db.users.byEmail.geta("456"),
         e: await db.users.byEmail.geta("4567"),
-        g: await utilmisc.streamToObject(db.users.byTag.getAll('1')),
-        h: await utilmisc.streamToObject(db.users.byTag.getAll('2'))
+        g: await db.users.byTag.get_all_async('1'),
+        h: await db.users.byTag.get_all_async('2')
     });
 }));
 router.get('/test', ash(async (req, res, next) => {
