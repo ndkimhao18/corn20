@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Hi!</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script>
+        $(function () {
+            var socket = io({query: {course_id: 123}});
+            socket.on('chat message', function(msg){
+                console.log('message: ' + msg);
+            });
+        });
+    </script>
+</head>
+<body>
+<h1>Hi !</h1>
+<h2>No name</h2>
+</body>
+</html>

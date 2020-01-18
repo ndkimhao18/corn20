@@ -30,13 +30,14 @@ app.use(function (req, res, next) {
     req.reqid = utilmisc.genId();
     next();
 });
-app.use(session({
+const mySession = session({
     cookie: {maxAge: 31556952000, sameSite: false},
     secret: "mylittlesecret",
     resave: false,
     saveUninitialized: false,
     store: new LevelStore(config.datadir + '/session_db')
-}));
+});
+app.use(mySession);
 
 morgan.token('reqid', function (req, res) {
     return req.reqid;
@@ -60,10 +61,12 @@ app.use(express.static(__dirname + '/public'));
 
 const server = http.createServer(app);
 const io = exports.io = socketio(server);
-io.use(sharedsession(session, {
-    autoSave: true
+io.use(sharedsession(mySession, {
+    autoSave: true,
+    resave: false,
+    saveUninitialized: false,
 }));
-require('./express_io').setup(server);
+require('./express_io').setup(io);
 
 exports.start = function () {
     const listener = server.listen(process.env.PORT, function () {
