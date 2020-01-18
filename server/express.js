@@ -57,7 +57,7 @@ app.use('/api', (err, req, res, next) => {
     return res.json({reqid: req.reqid, code: 500, msg: 'Unknown error', err: err.message});
 });
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/../public'));
 
 const server = http.createServer(app);
 const io = exports.io = socketio(server);
