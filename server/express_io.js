@@ -1,7 +1,9 @@
 const ReqWrapper = require('./wrapper/req');
 const log = require('debug')('ta:io');
+let io;
 
-exports.setup = function (io) {
+exports.setup = function (_io) {
+    io = _io;
 
     io.on('connection', function (socket) {
         const rw = new ReqWrapper(socket.handshake);
@@ -18,4 +20,11 @@ exports.setup = function (io) {
         });
     });
 
+};
+
+exports.emit_user = function (uid, msg) {
+    io.emit('user:' + uid, msg);
+};
+exports.emit_course = function (cid, msg) {
+    io.emit('course:' + cid, msg);
 };
