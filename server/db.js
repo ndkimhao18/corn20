@@ -38,4 +38,8 @@ function createDb(dbname, indexes) {
     promisify.all(db);
 }
 
-createDb('users', ['email', '!tag!username']);
+// user_id, full_name, courses: {course_id: <role>}
+createDb('users', ['email']);
+
+// course_id, code, title, members: {user_id: <role>}
+createDb('courses', ['email']);

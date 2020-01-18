@@ -42,6 +42,7 @@ morgan.token('raddr', function (req, res) {
 const morgan_format = '[:reqid] :method :url :status :response-time ms - :res[content-length] [:raddr]';
 
 app.use('/api', bodyParser.json());
+app.use('/api', bodyParser.urlencoded());
 app.use('/api', morgan(morgan_format, {stream: {write: msg => log_req_api(msg.trimEnd())}}));
 require('./express_routes').setup(app);
 app.use(utilmisc.routeUnless('/api', morgan(morgan_format, {stream: {write: msg => log_req_static(msg.trimEnd())}})));
