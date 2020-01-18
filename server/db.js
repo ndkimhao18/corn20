@@ -54,4 +54,4 @@ function createDb(dbname, indexes) {
 createDb('users', ['email']);
 
 // course_id, code, title, members: {user_id: <role>}
-createDb('courses', ['email']);
+createDb('courses', []);

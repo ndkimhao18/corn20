@@ -1,0 +1,36 @@
+
+<% include ./include.js.ejs %>
+<% include ./include.css.ejs %>
+
+<h1>dashboard</h1>
+
+<style>
+#explore-section{
+  top: 0;
+  /* width:100px;  */
+  right:0; 
+  bottom: 0;
+  /* background:red;  */
+  position:absolute;
+}
+</style>
+<div id='app'></div>
+
+<div class="card" id='explore-section'>
+  <div class="card-body">
+    <span v-for="(value, key, idex) in explores">
+      <h6 class="card-subtitle mb-2 text-muted">{{key}} </h5>
+      <a v-for="(explore, index) in value"
+         :href="explore.href"
+         class='dropdown-item'>
+        <img :src="explore.pin" height="30" width="30" >
+        {{ explore.title}} 
+      </a>
+    </span>
+  </div>
+</div>
+
+
+
+
+<script src="/client.js"></script>

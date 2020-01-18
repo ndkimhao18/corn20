@@ -1,8 +1,39 @@
+<% include ./include.js.ejs %>
+<% include ./include.css.ejs %>
 
-<% include ./include.ejs %>
+<style>
+.jumbotron{
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+</style>
+<!-- Navigation -->
+<% include ./nav.ejs %>
 
-<h1>dashboard</h1>
+<!-- Page Content -->
+<div class="container">
 
-<div id='app'></div>
+  <br /><br /><br /><br /><br />
+  <!-- Jumbotron Header -->
+  <header class="jumbotron my-4 d-none d-lg-block">
+    <h1 class="display-4">Search for courses</h1>
+    <nav class="navbar navbar-light bg-light">
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" style="width: 700px; height: 50px" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </nav>
+  </header>
+
+  <!-- Page Features -->
+  <div id='course-listing' class="row text-center">
+    <course-listing-item v-for="(course, index) in courses"
+      :course='course'
+      :key='index'
+    >
+  </div>
+  <!-- /.row -->
+
+</div>
 
 <script src="/client.js"></script>
