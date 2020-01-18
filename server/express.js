@@ -8,6 +8,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const path = require('path');
 const LevelStore = require('level-session-store')(session);
 
 const log = debug('ta:server');
@@ -17,6 +18,11 @@ const log_req_static = debug('ta:req:static');
 const utilmisc = require('./util/misc');
 
 const app = express();
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/view'));
+app.use(express.static(__dirname + '/public'));
+
 
 app.use(cors({credentials: true, origin: true, maxAge: 7200}));
 
@@ -50,6 +56,10 @@ app.use(utilmisc.routeUnless('/api', express.static('public')));
 app.use('/', (err, req, res, next) => {
     log('Uncaught Error: ', err);
     return res.json({reqid: req.reqid, code: 500, msg: 'Unknown error', err: err.message});
+});
+
+app.get('/', function(req, res) {
+    res.render(__dirname + '/views/index.ejs');
 });
 
 exports.start = function () {

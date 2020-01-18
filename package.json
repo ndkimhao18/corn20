@@ -22,7 +22,8 @@
     "morgan": "^1.9.1",
     "node-input-validator": "^4.1.0",
     "password-hash-and-salt": "^0.1.4",
-    "subleveldown": "^4.1.4"
+    "subleveldown": "^4.1.4",
+    "ejs": "^1.0.0"
   },
   "engines": {
     "node": "12.x"
