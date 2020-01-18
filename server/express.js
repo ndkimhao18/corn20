@@ -19,7 +19,7 @@ const utilmisc = require('./util/misc');
 const app = express();
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '/view'));
+app.set('views', path.join(__dirname, '/views'));
 
 app.use(cors({credentials: true, origin: true, maxAge: 7200}));
 
