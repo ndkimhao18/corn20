@@ -4,11 +4,12 @@
     <title>Hi!</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="lib/xlib.js"></script>
 
     <script>
         $(function () {
-            var socket = io({query: {course_id: 123}});
-            socket.on('chat message', function(msg){
+            var socket = xlib.open_socket_io(123);
+            socket.on('chat message', function (msg) {
                 console.log('message: ' + msg);
             });
         });
