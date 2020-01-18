@@ -13,11 +13,11 @@ router.post('/entry', ash(async (req, res, next) => {
     const rw = new ReqWrapper(req, res, next);
     const canvas = req.session.canvas = req.body;
     const uid = req.session.uid = parseInt(canvas.custom_canvas_user_id);
-    const role = req.session.role = canvas.roles;
+    const role = canvas.roles;
 
     let u = await rw.get_user_async_null();
     if (u === null) {
-        u = {
+        req.session.user = u = {
             user_id: uid,
             full_name: canvas.lis_person_name_full,
             first_name: canvas.lis_person_name_given,
@@ -41,7 +41,7 @@ router.post('/entry', ash(async (req, res, next) => {
         await db.courses.puta(cid, c);
     }
 
-    //await rw.add_course_async(cid);
+    await rw.add_course_async(cid, role);
 
     res.redirect('/dashboard');
     res.json("ok");

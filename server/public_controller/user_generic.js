@@ -1,6 +1,9 @@
 const express = require('express');
 const router = module.exports = express.Router();
 
+router.get('/', function(req, res) {
+    res.render(__dirname + '/views/index.ejs');
+});
 
 router.post('/logout', (req, res) => {
   req.session.destroy((error) => {
@@ -21,6 +24,6 @@ router.get('/courses/:id', (req, res) => {
 });
 
 router.get('/dashboard', (req, res) => {
-  return res.render(__dirname + '/views/dashboard.ejs');
+    return res.render(__dirname + '/views/dashboard.ejs');
 });
 
