@@ -1,0 +1,14 @@
+{
+  "queues": [
+    {
+      "qid": 1,
+      "name": "CS 156",
+      "desc": "Java blabla"
+    },
+    {
+      "qid": 2,
+      "name": "CS 155E",
+      "desc": "C blablabla"
+    }
+  ]
+}

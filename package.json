@@ -1,0 +1,35 @@
+{
+  "name": "hey-my-ta",
+  "version": "0.0.1",
+  "description": "An one-week hackathon project :))",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "nodemon": "nodemon index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "debug": "^4.1.1",
+    "express": "^4.16.4",
+    "express-async-handler": "^1.1.4",
+    "express-session": "^1.17.0",
+    "level": "^6.0.0",
+    "level-auto-index": "^2.0.0",
+    "level-session-store": "^2.2.0",
+    "leveldown": "^5.4.1",
+    "levelup": "^4.3.2",
+    "morgan": "^1.9.1",
+    "node-input-validator": "^4.1.0",
+    "password-hash-and-salt": "^0.1.4",
+    "subleveldown": "^4.1.4"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/hey-my-ta"
+  },
+  "license": "MIT",
+  "keywords": []
+}
