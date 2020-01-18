@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5a01126-675b-43fe-a510-e6db16654bc9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/api/canvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/canvas.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/wrapper/req.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/wrapper/req.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NOTES.md" beforeDir="false" afterPath="$PROJECT_DIR$/NOTES.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +86,7 @@
       <updated>1579324789047</updated>
       <workItem from="1579324790957" duration="133000" />
       <workItem from="1579324932973" duration="5019000" />
-      <workItem from="1579370770197" duration="7559000" />
+      <workItem from="1579370770197" duration="7943000" />
     </task>
     <servers />
   </component>
