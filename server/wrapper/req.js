@@ -34,6 +34,7 @@ ReqWrapper.prototype.add_course_async = async function (cid, role) {
     u.courses[cid] = role;
     c.members[this.get_user_id()] = role;
 
+    this.req.session.user = u;
     await Promise.all([
         db.users.puta(u.user_id, u),
         db.courses.puta(c.course_id, c),
