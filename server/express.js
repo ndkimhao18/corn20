@@ -10,6 +10,9 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const path = require('path');
 const LevelStore = require('level-session-store')(session);
+const http = require('http');
+const socketio = require('socket.io');
+const sharedsession = require("express-socket.io-session");
 
 const log = debug('ta:server');
 const log_req = debug('ta:req');
@@ -44,21 +47,26 @@ morgan.token('raddr', function (req, res) {
 });
 const morgan_format = '[:reqid] :method :url :status :response-time ms - :res[content-length] [:raddr]';
 
-app.use('/api', bodyParser.json());
-app.use('/api', bodyParser.urlencoded());
-app.use('/api', morgan(morgan_format, {stream: {write: msg => log_req(msg.trimEnd())}}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(morgan(morgan_format, {stream: {write: msg => log_req(msg.trimEnd())}}));
 require('./express_routes').setup(app);
 app.use('/api', (err, req, res, next) => {
     log('Uncaught Error: ', err);
     return res.json({reqid: req.reqid, code: 500, msg: 'Unknown error', err: err.message});
 });
 
-require('./express_ejs').setup(app);
-
 app.use(express.static(__dirname + '/public'));
 
+const server = http.createServer(app);
+const io = exports.io = socketio(server);
+io.use(sharedsession(session, {
+    autoSave: true
+}));
+require('./express_io').setup(server);
+
 exports.start = function () {
-    const listener = app.listen(process.env.PORT, function () {
+    const listener = server.listen(process.env.PORT, function () {
         log("Your app is listening on port " + listener.address().port);
     });
 };
