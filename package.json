@@ -11,6 +11,7 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
+    "ejs": "^1.0.0",
     "express": "^4.16.4",
     "express-async-handler": "^1.1.4",
     "express-session": "^1.17.0",
@@ -22,8 +23,7 @@
     "morgan": "^1.9.1",
     "node-input-validator": "^4.1.0",
     "password-hash-and-salt": "^0.1.4",
-    "subleveldown": "^4.1.4",
-    "ejs": "^1.0.0"
+    "subleveldown": "^4.1.4"
   },
   "engines": {
     "node": "12.x"

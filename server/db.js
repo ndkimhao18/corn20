@@ -17,6 +17,18 @@ function capitalize(s) {
     return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
+function augObj(db) {
+    promisify.all(db);
+    db.getan = async function (key) {
+        try {
+            return await db.get(key);
+        } catch (e) {
+            if (e.type === 'NotFoundError') return null;
+            else throw e;
+        }
+    }
+}
+
 function createDb(dbname, indexes) {
     const db = exports[dbname] = sub(_db, dbname, {valueEncoding: 'json'});
     indexes.forEach(v => {
@@ -30,12 +42,12 @@ function createDb(dbname, indexes) {
             idxName = v;
         }
         const by = db['by' + capitalize(idxName)] = AutoIndex(db, sub(db, idxName), keyRed);
-        promisify.all(by);
+        augObj(by);
         by.getAll = function (v) {
             return by.createReadStream({start: v, end: v + '~'});
         }
     });
-    promisify.all(db);
+    augObj(db);
 }
 
 // user_id, full_name, courses: {course_id: <role>}
