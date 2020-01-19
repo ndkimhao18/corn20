@@ -140,9 +140,9 @@ ReqWrapper.prototype.get_all_chat = async function (cid) {
     const obj = await utilmisc.streamToObject(db.chats.createReadStream({start: cid + ':', end: cid + ':~'}));
     const arr = Object.values(obj);
     arr.sort((x, y) => {
-        if (x.pinned !== y.pinned) {
-            return y.pinned - x.pinned;
-        }
+        // if (x.pinned !== y.pinned) {
+        //     return y.pinned - x.pinned;
+        // }
         return x.msg_id - y.msg_id
     });
     return arr;
