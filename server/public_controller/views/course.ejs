@@ -5,6 +5,7 @@
 <% include ./nav.ejs %>
 
 <% include ./chatbox.ejs %>
+<% include ./queue_live_update.js.ejs %>
 
 <br /><br /><br /><br />
 
@@ -36,10 +37,11 @@
           <%= P.sess.canvas.context_label %>
           <button v-if="status=='needhelp' && isLearner" type="button" class="btn btn-primary ml-auto" v-on:click="onClickGetHelp">Get Help</button>
           <button v-if="status=='resolving' && isLearner" type="button" class="btn btn-secondary ml-auto" v-on:click="onClickDoneResolving">Done resolving</button>
+          <button v-if="!getIsTeacherBusy && !isLearner && tickets.length > 0" type="button" class="btn btn-secondary ml-auto" v-on:click="onClickHelpNextInLine">Help next inline</button>
         </div>
         <div class='card-body'>
           <ul class="list-group list-group-flush">
-            <queue-item v-for="(ticket, index) in getTickets()" 
+            <queue-item v-for="(ticket, index) in tickets" 
               :student="ticket"
               :key="index"
               >

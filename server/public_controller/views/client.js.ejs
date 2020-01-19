@@ -7,18 +7,35 @@ Vue.mixin({
   data() {
     return {
       isLearner: isLearner,
+      me: me,
+      rawTickets: <%- P.course ? JSON.stringify(P.course.tickets) : JSON.stringify(null) %>,
     }
   },
+  methods: {
+    isBusy: function() {
+      return this.me.ticket != null;
+    },
+    updateMe: function(newData) {
+      this.isLearner = !newData.is_teacher;
+      this.me = newData;
+    },
+  },
+  computed: {
+    getIsLearnerBusy: function () {
+      return (this.me.ticket && this.me.ticket.assignee);
+    },
+    getIsTeacherBusy: function() {
+      return this.me.ticket != null;
+    }
+  }
 })
 
 let util_mixin = {
   data() {
     return {
-      isLearner: isLearner,
     }
   },
   methods: {
-
   }
 }
 
@@ -125,13 +142,15 @@ Vue.component('queue-item', {
       <div v-else>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" 
             v-on:click="onClickTeacherHelpStudent(student.ticketid)"
+            v-if="!isLearner && !getIsTeacherBusy"
             >
             Help
         </button>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" 
+         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" 
             v-on:click="onClickTeacherMarkDone(student.ticketid)"
+            v-if="getIsAbleToMarkDone"
             >
-            Remove
+            Done helping
         </button>
       </div>
     </li>
@@ -140,16 +159,24 @@ Vue.component('queue-item', {
     onClickTeacherHelpStudent: function(ticketid) {
       $.get(`/api/user/T-help-student`, {ticketid: ""+ticketid}, (res) => {
         notificationToast(`res: ${res}`);
+        this.tstatus = 'resolving';
       });
     },
     onClickTeacherMarkDone: function(ticketid) {
-      $.get(`/api/user/TS-done`, {ticketid:""}, (res, error) => {
+      $.get(`/api/user/TS-done`, {ticketid:""+ticketid}, (res, error) => {
+        this.tstatus = 'available';
         if (res !== "ok") {
           notificationToast(`res: ${res.err}`, 'error');
         }
       })
     }
-  }
+  },
+  computed: {
+    getIsAbleToMarkDone: function() {
+      console.log('this.student computed', this.student);
+      return !this.isLearner && this.rawTickets[this.student.ticketid].assignee && this.rawTickets[this.student.ticketid].assignee==this.me.info.user_id
+    }
+  },
 });
 
 
@@ -182,32 +209,24 @@ Vue.component('chat-item', {
   `
 });
 
-let vueChat = new Vue({
-  el: '#chat-section',
-  data: {
-    chats: [],
-  },
-  methods: {
-    addChat: function(chat){
-      this.chats.push(chat);
-    },
-    setChats: function(chats){
-      this.chats = chats;
-    }
-  }
-
-});
-
 let queue_status = new Vue({
   el: '#queue-status', 
   data: {
-    rawTickets: <%- P.course ? JSON.stringify(P.course.tickets) : JSON.stringify(null) %>,
     tickets: [],
     users_info: <%- P.course ? JSON.stringify(P.course.users_info) : JSON.stringify(null) %>,
     status: <%- P.me.ticket ? JSON.stringify("resolving") : JSON.stringify("needhelp") %>,
     tstatus: <%- P.me.ticket ? JSON.stringify("resolving") : JSON.stringify("available") %>,
+    isAbleToHelp: false,
   },
   methods: {
+    updateData: function(newData) {
+      this.rawTickets = newData.tickets;
+      this.users_info = newData.users_info;
+      this.status = this.me.ticket ? 'resolving' : 'needhelp';
+      this.tstatus = this.me.ticket ? 'resolving' : 'available';
+      this.tickets = this.getTickets();
+      this.isAbleToHelp = false;
+    },
     getTickets: function() {
       this.tickets = [ ];
       for ( const key in this.rawTickets ) {
@@ -239,11 +258,19 @@ let queue_status = new Vue({
         console.log('res', res);
         this.status = "needhelp"
       });
-    }
+    }, 
+    onClickHelpNextInLine: function() {
+      console.log('onClickHelpNextInLine');
+      const ticketid = this.tickets[0].ticketid;
+      $.get(`/api/user/T-help-student`, {ticketid: ticketid+""}, (res) => {
+        notificationToast(`${res}`, 'info');
+      });
+    },
   },
   created: function() {
-
+    this.getTickets();
   },
+
   mixins: [util_mixin],
 });
 
@@ -256,6 +283,22 @@ let user_list = new Vue({
   methods: {
     filteredTeacher: function() {
 
+    }
+  }
+
+});
+
+let vueChat = new Vue({
+  el: '#chat-section',
+  data: {
+    chats: [],
+  },
+  methods: {
+    addChat: function(chat){
+      this.chats.push(chat);
+    },
+    setChats: function(chats){
+      this.chats = chats;
     }
   }
 

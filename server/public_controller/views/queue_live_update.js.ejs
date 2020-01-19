@@ -1,0 +1,16 @@
+<script>
+  $(function () {
+    xlib.socket.on('new_course_status', function(msg) {
+      console.log('new new_course_status', msg);
+      queue_status.updateData(msg);
+      queue_status.$forceUpdate();
+
+    });
+
+    xlib.socket.on('new_user_status', function(msg) {
+      console.log('msg new_user_status', msg);
+      queue_status.updateMe(msg);
+      queue_status.$forceUpdate();
+    });
+  });
+</script>
