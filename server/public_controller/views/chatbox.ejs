@@ -189,7 +189,7 @@
     <div id='chat-section' class="chat">
         <div id="chat-history" class="chat-history">
             <chat-item v-for="(chat, index) in chats"
-                       :chat="chat">
+                       :chat="chat" :key="index">
 
             </chat-item>
         </div>

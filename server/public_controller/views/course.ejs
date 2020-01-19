@@ -20,14 +20,14 @@
   <div id="chat-sidebar" class="chat-sidebar">
     <h5 class="ml-3">Teachers</h5>
     <div class="sidebar-name">
-      <sidebar-item v-for="(item, index) in teachers" :item="item" />
+      <sidebar-item v-for="(item, index) in teachers" :item="item" :key="index" />
       <!-- Pass username and display name to register popup -->
 <!--      <a href="javascript:register_popup('narayan-prusty', 'Narayan Prusty');">-->
     </div>
     <hr>
     <h5 class="ml-3">Students</h5>
     <div class="sidebar-name">
-      <sidebar-item v-for="(item, index) in students" :item="item" />
+      <sidebar-item v-for="(item, index) in students" :item="item" :key="index" />
       <!-- Pass username and display name to register popup -->
     </div>
   </div>
