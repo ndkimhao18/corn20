@@ -12,6 +12,12 @@
             socket.on('new_course_status', function (msg) {
                 console.log('new_course_status: ', msg);
             });
+            socket.on('new_user_status', function (msg) {
+                console.log('new_user_status: ', msg);
+            });
+            socket.on('chat_msg', function (msg) {
+                console.log('chat: ', msg);
+            });
         });
     </script>
 </head>

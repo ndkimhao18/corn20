@@ -68,7 +68,8 @@ exports.get_online_user_in_queue = function (cid) {
     for (const socket of socks) {
         const rw = new ReqWrapper(socket.handshake);
         const uid = rw.get_user_id();
-        ret.push(uid);
+        if (uid && uid !== 0)
+            ret.push(uid);
     }
     return ret;
 };

@@ -21,13 +21,18 @@ router.get('/2', ash(async (req, res, next) => {
 }));
 router.get('/3', ash(async (req, res, next) => {
     const rw = new ReqWrapper(req, res, next);
-    await rw.upd_ticket_helping("1810097:25212880", 25212880);
+    await rw.upd_ticket_helping("1810097:25212880");
     res.json("ok");
 }));
 router.get('/4', ash(async (req, res, next) => {
     const rw = new ReqWrapper(req, res, next);
     await rw.upd_ticket_resolved("1810097:25212880");
     res.json("ok");
+}));
+
+router.get('/me', ash(async (req, res, next) => {
+    const rw = new ReqWrapper(req, res, next);
+    res.json(await rw.get_my_status());
 }));
 
 router.get('/get', ash(async (req, res, next) => {
@@ -88,5 +93,6 @@ router.get('/test', ash(async (req, res, next) => {
 }));
 
 router.get('/all', ash(async (req, res, next) => {
-    res.json(await utilmisc.streamToObject(db._db.createReadStream()));
+    res.set({'Content-Type': 'application/json; charset=utf-8'}).send(200, JSON.stringify(await utilmisc.streamToObject(db._db.createReadStream()), undefined, '  '));
+
 }));
