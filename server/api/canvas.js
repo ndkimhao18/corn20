@@ -24,6 +24,7 @@ router.post('/entry', ash(async (req, res, next) => {
             first_name: canvas.lis_person_name_given,
             last_name: canvas.lis_person_name_family,
             role,
+            image: canvas.user_image,
             courses: {}
         };
         log(req, "Creating new user: ", u);
