@@ -250,6 +250,11 @@
 
         xlib.get_all_msg(xlib.course_id).then(function (data) {
             vueChat.setChats(data);
+            vue_annoucement.setAnnoucement(
+                data.filter((d) => d.pinned)
+            );
+            console.log('data', data);
+            console.log('annouce', data.filter((d) => d.pinned));
             setTimeout(() => scroll_bottom(), 20);
         });
         xlib.socket.on('chat_msg', function (msg) {
@@ -260,6 +265,7 @@
         });
         xlib.socket.on('chat_msg_upd_pinned', function (msg) {
             console.log('chat updated: ', msg);
+            vue_annoucement.addOrRemove(msg);
         });
     });
 </script>
