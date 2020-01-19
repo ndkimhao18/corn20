@@ -25,7 +25,7 @@
 	<!-- Left side annoucement -->
 	<div id="annoucement-list" class="col-sm-4 mt-5 justify-content-center">
 		<div class="card">
-			<div class="card-header">
+			<div class="card-header annouce-title">
 				Announcements
 			</div>
 			<div class="card-body">
@@ -41,7 +41,7 @@
 	<div id="queue-status" class="col-md-7 mt-5 justify-content-center">
 		<div class="card">
 			<div class="card-header">
-					<%= P.course.course_info.title %>
+					<b><%= P.course.course_info.title %></b>
 					<button v-show="isAbleGetHelpAsStudent" type="button" class="btn btn-primary ml-auto" v-on:click="onClickGetHelp">Get Help</button>
 					<button v-show="isAbleToMarkDoneAsStudent" type="button" class="btn btn-secondary ml-auto" v-on:click="onClickDoneResolving">Done resolving</button>
 					<button v-show="isAbleToHelpNextInLineAsTeacher" type="button" class="btn btn-secondary ml-auto" v-on:click="onClickHelpNextInLine">Help next inline</button>
