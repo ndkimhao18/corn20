@@ -13,6 +13,9 @@ exports.setup = function (_io) {
         let {course_id} = socket.handshake.query;
         if (!course_id) course_id = 0;
         log('User connected:', 'uid', uid, 'course_id', course_id);
+        if (course_id !== 0) {
+            setTimeout(() => rw.emit_new_course_status(course_id), 20);
+        }
 
         // const connKey = course_id + ':' + uid;
         // if (conn[connKey] === undefined) conn[connKey] = {};
@@ -23,6 +26,9 @@ exports.setup = function (_io) {
         socket.on('disconnect', function () {
             log('User disconnected:', 'uid', uid, 'course_id', course_id);
             // delete conn[connKey][socket.id];
+            if (course_id !== 0) {
+                setTimeout(() => rw.emit_new_course_status(course_id), 20);
+            }
         });
     });
 
