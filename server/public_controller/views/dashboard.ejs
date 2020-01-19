@@ -10,30 +10,33 @@
 <!-- Navigation -->
 <% include ./nav.ejs %>
 
-<!-- Page Content -->
-<div class="container">
+<div id='main'>
+  <!-- Page Content -->
+  <div class="container mt-5">
+    <br /><br /><br /><br /><br />
+    <!-- Jumbotron Header -->
+    <header class="jumbotron my-4 d-none d-lg-block">
+      <h1 class="display-4">Search for courses</h1>
+      <nav class="navbar navbar-light bg-light">
+        <form class="form-inline">
+          <input class="form-control mr-sm-2" style="width: 700px; height: 50px" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </nav>
+    </header>
 
-  <br /><br /><br /><br /><br />
-  <!-- Jumbotron Header -->
-  <header class="jumbotron my-4 d-none d-lg-block">
-    <h1 class="display-4">Search for courses</h1>
-    <nav class="navbar navbar-light bg-light">
-      <form class="form-inline">
-        <input class="form-control mr-sm-2" style="width: 700px; height: 50px" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-    </nav>
-  </header>
+    <!-- Page Features -->
+    <div id='course-listing' class="row text-center">
+      <course-listing-item v-for="(course, index) in courses"
+        :course='course'
+        :key='index'
+      >
+    </div>
+    <!-- /.row -->
 
-  <!-- Page Features -->
-  <div id='course-listing' class="row text-center">
-    <course-listing-item v-for="(course, index) in courses"
-      :course='course'
-      :key='index'
-    >
   </div>
-  <!-- /.row -->
-
 </div>
 
-<script src="/client.js"></script>
+<script>
+  <% include ./client.js.ejs %>
+</script>

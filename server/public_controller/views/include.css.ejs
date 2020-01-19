@@ -1,1 +1,87 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+
+
+<style>
+  h5 {
+  padding-bottom: 5px;
+  }
+
+  .split-left {
+    left: 0px;
+    height: 80%;
+    position: fixed;
+    width: 80%;
+    z-index: 1;
+    top: 0;
+  }
+  .chat-sidebar {
+  width: 20%;
+  position: fixed;
+  height: 100%;
+  right: 0px;
+  top: 0px;
+  padding-top: 65px;
+  padding-bottom: 10px;
+  border: 1px solid rgba(29, 49, 91, 0.3);
+  background: lightsteelblue;
+  overflow: scroll;
+  }
+  .sidebar-name {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 3px;
+  margin-bottom: 4px;
+  font-size: 15px;
+  }
+  .sidebar-name span {
+  padding-left: 5px;
+  }
+  .sidebar-name a {
+  display: block;
+  height: 5%;
+  text-decoration: none;
+  color: inherit;
+  }
+  .sidebar-name:hover {
+  background-color: #e1e2e5;
+  }
+  .sidebar-name img {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  }
+  .popup-box {
+  display: none;
+  position: fixed;
+  bottom: 0px;
+  right: 220px;
+  height: 285px;
+  background-color: rgb(237, 239, 244);
+  width: 300px;
+  border: 1px solid rgba(29, 49, 91, 0.3);
+  }
+  .popup-box .popup-head {
+  background-color: #6d84b4;
+  padding: 5px;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  clear: both;
+  }
+  .popup-box .popup-head .popup-head-left {
+  float: left;
+  }
+  .popup-box .popup-head .popup-head-right {
+  float: right;
+  opacity: 0.5;
+  }
+  .popup-box .popup-head .popup-head-right a {
+  text-decoration: none;
+  color: inherit;
+  }
+  .popup-box .popup-messages {
+  height: 100%;
+  overflow-y: scroll;
+  }
+</style>
