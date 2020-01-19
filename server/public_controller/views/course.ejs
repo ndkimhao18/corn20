@@ -6,7 +6,7 @@
 <% include ./queue_live_update.js.ejs %>
 <!--<br /><br /><br /><br />-->
 <div class="row mt-5">
-   <div id="chat-sidebar" class="chat-sidebar">
+  <div id="chat-sidebar" class="chat-sidebar">
       <h5 class="ml-3">Teachers</h5>
       <div class="sidebar-name">
          <sidebar-item v-for="(item, index) in teachers" :item="item" :key="index" />
@@ -23,12 +23,12 @@
 <div class="row mt-5 split-left">
 	<div class="col-sm-1"> </div>
 	<!-- Left side annoucement -->
-	<div id="annoucement-list" class="col-sm-4 mt-5 justify-content-center">
+	<div id="annoucement-list" class="col-sm-4 mt-5 justify-content-center" >
 		<div class="card">
 			<div class="card-header annouce-title">
 				Announcements
 			</div>
-			<div class="card-body">
+			<div class="card-body" style="overflow-y: scroll; height:400px">
 				<annoucement-item v-for="(annoucement, index) in annoucements"
 								  :key="index"
 								  :annoucement="annoucement">
