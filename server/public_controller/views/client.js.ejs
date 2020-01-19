@@ -1,3 +1,5 @@
+<script>
+
 const isLearner = <%= (P.sess.role == 'Learner') ? true : false %>;
 const course_id = <%= (P.course_id) ? P.course_id : null %>;
 const P = <%- (P) ? JSON.stringify(P) : null %>;
@@ -109,14 +111,14 @@ Vue.component('queue-item', {
       <div v-else>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" 
             v-on:click="onClickTeacherHelpStudent(ticket.ticket_id)"
-            v-if="isAbleToHelpNextInLineAsTeacher"
+                v-show="isAbleToHelpNextInLineAsTeacher"
             >
             Help
         </button>
 
          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" 
             v-on:click="onClickTeacherMarkDone(ticket.ticket_id)"
-            v-if="isAbleToMarkDoneAsTeacher"
+                 v-show="isAbleToMarkDoneAsTeacher"
             >
             Done helping
         </button>
@@ -304,3 +306,5 @@ function userLogout() {
   $.post('/logout', {});
   window.location.href = "https://canvas.instructure.com/";
 }
+
+</script>
