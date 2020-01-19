@@ -100,11 +100,10 @@ Vue.component('queue-item', {
   }, 
   template: `
     <li class="list-group-item d-flex align-items-center">
-      <div class="avatar">
-        <img src="https://assets.servedby-buysellads.com/p/manage/asset/id/32054" alt="">
+      <div class="avatar queue_user_ava" v-bind:style="{'background-image': 'url(/api/chat/dl_img?url=' + ticket.info.image + ')'}">
       </div>
       <div class="w-100">
-        <div class="user-name">{{ ticket.info.full_name }}</div>
+        <div class="queue user-name">{{ ticket.info.full_name }}</div>
         <div class="message bg-light">Description: {{ ticket.notes.this_is_the_note }}</div>
       </div>
       <span v-if="isLearner" class="date text-mutted ml-auto">Status: {{ ticket.status }}</span>
@@ -163,7 +162,7 @@ Vue.component('chat-item', {
   template: `
     <div class="chat-message clearfix">
       <img
-              :src="'http://localhost:3000/api/chat/dl_img?url=' + chat.image"
+              :src="'/api/chat/dl_img?url=' + chat.image"
               alt=""
               width="32"
               height="32"
