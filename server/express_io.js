@@ -62,15 +62,15 @@ exports.get_online_user_in_queue = function (cid) {
     // }
     // //log(ret);
     // return Object.keys(ret);
-    const ret = [];
+    const ret = {};
     const socks = exports.get_sockets_in_room('course:' + cid);
     //log(socks)
     for (const socket of socks) {
         const rw = new ReqWrapper(socket.handshake);
         const uid = rw.get_user_id();
         if (uid && uid !== 0)
-            ret.push(uid);
+            ret[uid] = true;
     }
-    return ret;
+    return Object.keys(ret);
 };
 
