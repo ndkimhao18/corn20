@@ -6,6 +6,11 @@
     padding-top: 70px;
     padding-bottom: 70px;
 }
+
+#search{
+  display: flex;
+  justify-content: center;
+}
 </style>
 <!-- Navigation -->
 <% include ./nav.ejs %>
@@ -19,11 +24,11 @@
   <div class="container mt-5">
     <br /><br /><br /><br /><br />
     <!-- Jumbotron Header -->
-    <header class="jumbotron my-4 d-none d-lg-block">
-      <h1 class="display-4">Search for courses</h1>
-      <nav class="navbar navbar-light bg-light">
-        <form class="form-inline">
-          <input class="form-control mr-sm-2" style="width: 700px; height: 50px" type="search" placeholder="Search" aria-label="Search">
+    <header class="jumbotron my-4 d-none d-md-block">
+      <h1 class="display-4 text-center">Search for courses</h1>
+      <nav class="navbar navbar-light bg-light" id="search">
+        <form class="form-inline justify-content-center">
+          <input class="form-control mr-sm-2c" style="width: 500px; height: 50px" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
       </nav>
