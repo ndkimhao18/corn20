@@ -22,7 +22,7 @@ function augObj(db) {
     promisify.all(db);
     db.getan = async function (key) {
         try {
-            return await db.get(key);
+            return await db.getAsync(key);
         } catch (e) {
             if (e.type === 'NotFoundError') return null;
             else throw e;
@@ -45,7 +45,7 @@ function createDb(dbname, indexes) {
             keyRed = keyReducer(v);
             idxName = v;
         }
-        const by = db['by' + capitalize(idxName)] = AutoIndex(db, sub(db, idxName), keyRed);
+        const by = db['by_' + idxName] = AutoIndex(db, sub(db, idxName), keyRed);
         augObj(by);
         by.get_all_async = function (v) {
             if (v === undefined) {
@@ -56,13 +56,17 @@ function createDb(dbname, indexes) {
     });
     augObj(db);
 }
+
 augObj(_db);
 
 // user_id, full_name, courses: {course_id: <role>}
-createDb('users', ['email']);
+createDb('users', []);
 
 // course_id, code, title, members: {user_id: <role>}
 createDb('courses', []);
 
-// course_id:user_id, status, createdAt
-createDb('tickets', []);
+// course_id:user_id, course_id, user_id, status, createdAt
+createDb('tickets', ['user_id', 'assignee']);
+
+// course_id:msg_id, course_id, msg_id, user_id, full_name, msg
+createDb('chats', []);
