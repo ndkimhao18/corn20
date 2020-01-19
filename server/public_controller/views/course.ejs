@@ -46,7 +46,7 @@
 					<button v-show="isAbleToMarkDoneAsStudent" type="button" class="btn btn-secondary ml-auto" v-on:click="onClickDoneResolving">Done resolving</button>
 					<button v-show="isAbleToHelpNextInLineAsTeacher" type="button" class="btn btn-secondary ml-auto" v-on:click="onClickHelpNextInLine">Help next inline</button>
 			</div>
-			<div class="card-body">
+			<div class="card-body" style="overflow-y: scroll; height:400px">
 					<ul class="list-group list-group-flush">
 						 <queue-item v-for="(ticket, index) in tickets" 
 								:ticket="ticket"
