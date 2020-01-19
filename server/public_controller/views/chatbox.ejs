@@ -183,11 +183,11 @@
     <header class="clearfix">
         <h4>Mehmet Mert</h4>
 
-        <span class="chat-message-counter">3</span>
+<!--        <span class="chat-message-counter" id="chat-message-counter">0</span>-->
     </header>
 
     <div id='chat-section' class="chat">
-        <div class="chat-history">
+        <div id="chat-history" class="chat-history">
             <chat-item v-for="(chat, index) in chats"
                        :chat="chat">
 
@@ -195,11 +195,11 @@
         </div>
         <!-- end chat-history -->
 
-        <p class="chat-feedback">Yazıyor..</p>
+        <!--        <p class="chat-feedback">Yazıyor..</p>-->
 
-        <form action="#" method="post">
+        <form id="form_chat_message">
             <fieldset>
-                <input type="text" placeholder="Mesajınızı Yazın" autofocus/>
+                <input id="chat_input_message" type="text" placeholder="Type your message..." autofocus autocomplete="off"/>
                 <input type="hidden"/>
             </fieldset>
         </form>
@@ -208,23 +208,58 @@
 </div>
 <!-- end live-chat -->
 
-<script src="/socket.io/socket.io.js"></script>
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
-<script src="/lib/xlib.js"></script>
 <script>
-    $()
-    (function () {
+    $(function () {
+        // var msg_cnt = 0;
+        // var chatbox_open = true;
+        // function update_cnt(val) {
+        //     $('#chat-message-counter')[val === 0 ? 'hide' : 'show']();
+        //     $('#chat-message-counter').text(val);
+        // }
+
         $("#live-chat header").on("click", function () {
+            // chatbox_open = true;
+            // update_cnt(msg_cnt = 0);
             $(".chat").slideToggle(300, "swing");
-            $(".chat-message-counter").fadeToggle(300, "swing");
+            // $(".chat-message-counter").fadeOut(300, "swing");
         });
 
         $(".chat-close").on("click", function (e) {
+            // chatbox_open = false;
+            // update_cnt(msg_cnt = 0);
             e.preventDefault();
             $("#live-chat").fadeOut(300);
+            // $(".chat-message-counter").fadeIn(300, "swing");
         });
 
+        $('#form_chat_message').submit(function (event) {
+            event.preventDefault();
+            var $inp = $('#chat_input_message');
+            var msg = $inp.val();
+            $inp.val('');
+            if (msg.length > 0) {
+                xlib.send_msg(xlib.course_id, msg);
+            }
+        });
 
-    })();
+        function scroll_bottom() {
+            var $his = $('#chat-history');
+            $his.animate({scrollTop: $his.prop("scrollHeight")}, 500);
+        }
+
+        xlib.get_all_msg(xlib.course_id).then(function (data) {
+            vueChat.setChats(data);
+            setTimeout(() => scroll_bottom(), 20);
+        });
+        xlib.socket.on('chat_msg', function (msg) {
+            // update_cnt(++msg_cnt);
+
+            vueChat.addChat(msg);
+            scroll_bottom();
+        });
+        xlib.socket.on('chat_msg_upd_pinned', function (msg) {
+            console.log('chat updated: ', msg);
+        });
+    });
 </script>
 

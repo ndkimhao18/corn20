@@ -22,13 +22,15 @@ window.xlib = {
         });
     },
 
-    get_all_msg: async function (cid) {
-        return await fetch("/api/chat/" + cid, {
+    get_all_msg: function (cid) {
+        return fetch("/api/chat/" + cid, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
+        }).then((response) => {
+            return response.json();
         });
     }
 };

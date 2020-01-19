@@ -42,6 +42,7 @@ router.get('/courses/:id', ash(async(req, res, next) => {
     P: {
       sess: sess,
       course: course,
+      course_id: id,
     }
   });
 }));

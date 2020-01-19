@@ -142,9 +142,9 @@ Vue.component('chat-item', {
       />
 
       <div class="chat-message-content clearfix">
-        <span class="chat-time">13:35</span>
+        <span class="chat-time">{{ moment(chat.created_at).fromNow() }}</span>
 
-        <h5>John Doe</h5>
+        <h5>{{ chat.last_name }}</h5>
 
         <p>
           {{ chat.msg }}
@@ -157,14 +157,17 @@ Vue.component('chat-item', {
   `
 });
 
-let chat = new Vue({
+let vueChat = new Vue({
   el: '#chat-section',
   data: {
-    chats: [{"course_id":"1810097","msg_id":"1810097:4857978315","user_id":25212877,"full_name":"Matthew L. Williams","pinned":false,"msg":"hi 1"},{"course_id":"1810097","msg_id":"1810097:4857980899","user_id":25212877,"full_name":"Matthew L. Williams","pinned":false,"msg":"hi 2"}]
+    chats: [],
   },
   methods: {
     addChat: function(chat){
       this.chats.push(chat);
+    },
+    setChats: function(chats){
+      this.chats = chats;
     }
   }
 

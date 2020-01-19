@@ -10,3 +10,16 @@
 
 <script src="https://cdn.jsdelivr.net/gh/datduyng/mycdn/Toast-Loading-Indicator-Plugin/jquery.toast.js"></script>
 
+<script src="/socket.io/socket.io.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+<script src="/lib/xlib.js"></script>
+
+<script src="https://rawgit.com/moment/moment/2.24.0/min/moment.min.js"></script>
+
+<script>
+    Vue.prototype.moment = moment;
+    <% if(P.course_id) { %>
+    window.xlib.course_id = <%=P.course_id%>;
+    window.xlib.socket = xlib.open_socket_io(window.xlib.course_id);
+    <% } %>
+</script>
