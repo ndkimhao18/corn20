@@ -84,6 +84,7 @@ ReqWrapper.prototype.new_ticket = async function (cid, uid, notes) { // uid = st
         status: 'Waiting',
         notes,
     });
+    await this.emit_new_course_status(cid);
 };
 
 ReqWrapper.prototype.upd_ticket_helping = async function (tid, uid) { // uid = teacher id
@@ -92,8 +93,16 @@ ReqWrapper.prototype.upd_ticket_helping = async function (tid, uid) { // uid = t
     ticket.assignee = this.get_user_id();
     await db.users.geta(uid);
     await db.tickets.puta(tid, ticket);
+    await this.emit_new_course_status(tid);
 };
 
 ReqWrapper.prototype.upd_ticket_resolved = async function (tid) {
     await db.tickets.dela(tid);
+    await this.emit_new_course_status(tid);
+};
+
+ReqWrapper.prototype.emit_new_course_status = async function (ctid) {
+    const cid = ('' + ctid).split(':')[0];
+    const stat = await this.get_course_status(cid);
+    io.emit_course(cid, 'new_course_status', stat);
 };
