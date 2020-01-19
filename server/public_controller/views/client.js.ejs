@@ -307,9 +307,7 @@ Vue.component('annoucement-item', {
     }
   },
   template: `
-  
     <div class="toast" data-autohide="false">
-      <p>test</p>
       <div class="toast-header">
           <strong class="mr-auto text-primary">{{ 'From:' + annoucement.full_name }}</strong>
           <small class="text-muted">5 mins ago</small>
@@ -337,6 +335,8 @@ let vue_annoucement = new Vue({
   methods: {
     setAnnoucement: function(data) {
       this.annoucements = data;
+      this.$forceUpdate();
+      setTimeout(() => $(".toast").toast("show"), 0);
     },
     addOrRemove: function(d) {
       if (d.pinned) {
@@ -350,12 +350,11 @@ let vue_annoucement = new Vue({
           }
         }
       }
+      this.$forceUpdate();
+      setTimeout(() => $(".toast").toast("show"), 0);
     },
   },
   mounted: function() {
-    // setTimeout(() => {
-      $(".toast").toast("show");
-    // }, 200);
   }
 });
 
