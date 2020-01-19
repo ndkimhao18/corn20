@@ -19,14 +19,6 @@ Vue.mixin({
       this.isLearner = !newData.is_teacher;
       this.me = newData;
     },
-  },
-  computed: {
-    getIsLearnerBusy: function () {
-      return (this.me.ticket && this.me.ticket.assignee);
-    },
-    getIsTeacherBusy: function() {
-      return this.me.ticket != null;
-    }
   }
 })
 
@@ -142,13 +134,13 @@ Vue.component('queue-item', {
       <div v-else>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" 
             v-on:click="onClickTeacherHelpStudent(student.ticketid)"
-            v-if="!isLearner && !getIsTeacherBusy"
+            v-show="isAbleToHelpNextInLineAsTeacher()"
             >
             Help
         </button>
          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" 
             v-on:click="onClickTeacherMarkDone(student.ticketid)"
-            v-if="getIsAbleToMarkDone"
+            v-show=""
             >
             Done helping
         </button>
@@ -170,13 +162,7 @@ Vue.component('queue-item', {
         }
       })
     }
-  },
-  computed: {
-    getIsAbleToMarkDone: function() {
-      console.log('this.student computed', this.student);
-      return !this.isLearner && this.rawTickets[this.student.ticketid].assignee && this.rawTickets[this.student.ticketid].assignee==this.me.info.user_id
-    }
-  },
+  }
 });
 
 
@@ -266,6 +252,15 @@ let queue_status = new Vue({
         notificationToast(`${res}`, 'info');
       });
     },
+    isAbleGetHelpAsStudent() {
+      return this.isLearner && this.me.ticket == null; 
+    },
+    isAbleToMarkDoneAsStudent() {
+      return this.isLearner && this.me.ticket != null;
+    },
+    isAbleToHelpNextInLineAsTeacher() {
+      return !this.isLearner && this.me.ticket == null;
+    }
   },
   created: function() {
     this.getTickets();
