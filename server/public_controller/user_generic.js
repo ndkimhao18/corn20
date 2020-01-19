@@ -25,7 +25,8 @@ router.get('/courses/:id', ash(async(req, res, next) => {
   const sess = req.session;
   const { id } = req.params;
   const rw = new ReqWrapper(req, res, next);
-  
+
+  sess.user_status = await rw.get_my_status();
   if (!sess.canvas) {
     return res.redirect(CANVAS_URL);
   }
@@ -38,18 +39,21 @@ router.get('/courses/:id', ash(async(req, res, next) => {
     return res.redirect(CANVAS_URL);
   }
 
+  console.log('sess', JSON.stringify(sess));
   return res.render(__dirname + '/views/course.ejs', {
     P: {
       sess: sess,
       course: course,
+      course_id: id
     }
   });
 }));
 
 router.get('/dashboard', ash(async(req, res, next) => {
   const sess = req.session;
-  //if sess null?
   
+  //if sess null?
+  console.log('sess', JSON.stringify(sess));
   if (!sess.canvas) {
     return res.redirect(CANVAS_URL);
   }
