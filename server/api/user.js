@@ -15,7 +15,7 @@ router.get('/1', ash(async (req, res, next) => {
     //res.json(await rw.get_course_status(1810097));
 }));
 
-router.get('/T-get-help', ash(async (req, res, next) => {
+router.get('/S-get-help', ash(async (req, res, next) => {
     const rw = new ReqWrapper(req, res, next);
 
     const { course_id, note } = req.query;

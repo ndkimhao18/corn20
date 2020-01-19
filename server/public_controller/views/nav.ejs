@@ -1,6 +1,11 @@
 <style>
+  .navbar{
+    font-size: 20px;
+  }
+
   #username{
-    font-size: 1rem;
+    font-size: 1.3rem;
+    padding-right: 70px;
   }
 </style>
 
@@ -16,13 +21,15 @@
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item" id="username">
+          <li class="nav-item d-none d-lg-block" id="username">
             <a class="nav-link disabled" href="#"><%=P.sess.user.full_name%></a>
           </li>
-          <li class="nav-item">
-            <button type="button" class="btn btn-link" onclick="userLogout()">
+          <li class="nav-item" id="logout">
+            <a class="nav-link" href="#" onclick="userLogout()">Logout <i class="fas fa-user"></i></a>
+
+            <!-- <button type="button" class="btn btn-link" onclick="userLogout()">
               Logout <i class="fas fa-user"></i>
-            </button> 
+            </button> -->
           </li>
         </ul>
     </div>
