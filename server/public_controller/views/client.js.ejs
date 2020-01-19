@@ -196,7 +196,7 @@ Vue.component('chat-item', {
       <div class="chat-message-content clearfix">
         <span class="chat-time">{{ moment(chat.created_at).fromNow() }}</span>
 
-        <h5>{{ chat.last_name }}</h5>
+        <h5>{{ chat.last_name.length > 0 ? chat.last_name : chat.full_name }}</h5>
 
         <p>
           {{ chat.msg }}
