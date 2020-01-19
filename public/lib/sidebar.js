@@ -4,7 +4,7 @@ Vue.component('sidebar-item', {
     },
     template: `
       <a>
-        <span class="ml-1"><span :class="'dot ' + (!item.online ? 'dot-offline' : '')"></span>{{ item.full_name }}</span>
+        <span class="ml-1"><span :class="'dot ' + (item.assigned ? 'dot-assigned' : (!item.online ? 'dot-offline' : ''))"></span>{{ item.full_name }}</span>
       </a>
   `
 });
@@ -16,18 +16,22 @@ let vueSidebar = new Vue({
         students: [],
     },
     methods: {
-        setCourseData: function(c){
-            const online = {};
+        setCourseData: function (c) {
+            const online = {}, assigned = {};
             c.online.forEach(id => online[id] = true);
+            Object.values(c.tickets).forEach(v => {
+                if (v.assignee) assigned[v.assignee] = true
+            });
             this.students = [];
             this.teachers = [];
-            for(const [k, v] of Object.entries(c.course_info.members)) {
+            for (const [k, v] of Object.entries(c.course_info.members)) {
                 const entry = {
                     user_id: k,
                     full_name: c.users_info[k].full_name,
-                    online: !!online[k]
+                    online: !!online[k],
+                    assigned: !!assigned[k]
                 };
-                if(v === "Learner") {
+                if (v === "Learner") {
                     this.students.push(entry);
                 } else {
                     this.teachers.push(entry);
