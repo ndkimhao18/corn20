@@ -72,6 +72,9 @@ ReqWrapper.prototype.get_course_status = async function (cid) {
         if (value.assignee)
             waits.push(f(value.assignee));
     }
+    for (let [key, value] of Object.entries(ret.course_info.members)) {
+        waits.push(f(key));
+    }
     await Promise.all(waits);
     return ret;
 };
@@ -81,6 +84,7 @@ ReqWrapper.prototype.new_ticket = async function (cid, notes) { // uid = student
     const tid = cid + ':' + uid;
     await db.users.geta(uid);
     await db.tickets.puta(tid, {
+        ticket_id: tid,
         course_id: cid,
         user_id: uid,
         status: 'Waiting',
