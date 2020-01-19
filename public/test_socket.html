@@ -18,6 +18,9 @@
             socket.on('chat_msg', function (msg) {
                 console.log('chat: ', msg);
             });
+            socket.on('chat_msg_upd_pinned', function (msg) {
+                console.log('chat updated: ', msg);
+            });
         });
     </script>
 </head>
