@@ -85,6 +85,7 @@ ReqWrapper.prototype.new_ticket = async function (cid, uid, notes) { // uid = st
         status: 'Waiting',
         notes,
         assignee: null,
+        created_at: utilmisc.now()
     });
     await Promise.all([this.emit_new_course_status(cid), this.emit_new_user_status(uid)]);
 };
@@ -117,7 +118,7 @@ ReqWrapper.prototype.emit_new_course_status = async function (ctid) {
 ReqWrapper.prototype.emit_new_user_status = async function (cuid) {
     const p = ('' + cuid).split(':');
     const uid = p[p.length - 1];
-    log('emit u ', uid, await this.get_user_status(uid))
+    // log('emit u ', uid, await this.get_user_status(uid))
     io.emit_user(uid, 'new_user_status', await this.get_user_status(uid));
 };
 
@@ -136,10 +137,33 @@ ReqWrapper.prototype.get_user_status = async function (uid) {
 
 ReqWrapper.prototype.get_all_chat = async function (cid) {
     const obj = await utilmisc.streamToObject(db.chats.createReadStream({start: cid + ':', end: cid + ':~'}));
-    for (const [k, v] of obj) {
-        const p = k.split(':');
-        obj.course_id = p[0];
-        obj.msg_id = p[1];
-    }
-    const arr = Object.values(obj).sort((x, y) => x.msg_id - y.msg_id);
+    const arr = Object.values(obj);
+    arr.sort((x, y) => {
+        if (x.pinned !== y.pinned) {
+            return y.pinned - x.pinned;
+        }
+        return x.msg_id - y.msg_id
+    });
+    return arr;
+};
+
+ReqWrapper.prototype.add_chat_msg = async function (cid, msg) {
+    const mid = cid + ':' + utilmisc.genId();
+    const m = {
+        course_id: cid,
+        msg_id: mid,
+        user_id: this.get_user_id(),
+        full_name: this.req.session.user.full_name,
+        pinned: false,
+        msg
+    };
+    await db.chats.puta(mid, m);
+    io.emit_course(cid, 'chat_msg', m);
+};
+
+ReqWrapper.prototype.upd_chat_msg_pinned = async function (mid, pinned) {
+    const m = await db.chats.geta(mid);
+    m.pinned = pinned;
+    await db.chats.puta(mid, m);
+    io.emit_course(mid.split(':')[0], 'chat_msg_upd_pinned', m);
 };

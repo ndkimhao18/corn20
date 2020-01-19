@@ -7,5 +7,18 @@ window.xlib = {
             upgrade: false,
             query: q
         });
+    },
+
+    send_msg: function (cid, msg) {
+        fetch("/api/chat/" + cid, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                msg
+            })
+        });
     }
 };

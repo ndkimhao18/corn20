@@ -35,6 +35,12 @@ router.get('/me', ash(async (req, res, next) => {
     res.json(await rw.get_my_status());
 }));
 
+router.get('/pin/:pinned', ash(async (req, res, next) => {
+    const rw = new ReqWrapper(req, res, next);
+    rw.upd_chat_msg_pinned("1810097:4850088078", req.params.pinned === '1');
+    res.json("ok");
+}));
+
 router.get('/get', ash(async (req, res, next) => {
     res.json({
         a: await db.users.geta("123"),

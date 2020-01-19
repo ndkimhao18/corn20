@@ -65,7 +65,7 @@ createDb('users', []);
 // course_id, code, title, members: {user_id: <role>}
 createDb('courses', []);
 
-// course_id:user_id, course_id, user_id, status, createdAt
+// course_id:user_id, course_id, user_id, status, created_at
 createDb('tickets', ['user_id', 'assignee']);
 
 // course_id:msg_id, course_id, msg_id, user_id, full_name, msg
