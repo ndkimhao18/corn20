@@ -243,18 +243,22 @@ let queue_status = new Vue({
       return this.tickets;
     },
     onClickGetHelp: function() {
-      let queryParams = {
-        course_id: course_id,
-        note: ""
-      };
+        bootbox.prompt("What do you need help with?", function(msg){
+            if(msg == undefined) return;
+              let queryParams = {
+                course_id: course_id,
+                note: msg
+              };
 
-      $.get(`/api/user/S-get-help`,queryParams, (res) => {
-        if (res != "ok") {
-          notificationToast(res)
-        }
-        console.log('res', res);
-        this.status = "resolving";
-      });
+              $.get(`/api/user/S-get-help`,queryParams, (res) => {
+                if (res != "ok") {
+                  notificationToast(res)
+                }
+                console.log('res', res);
+                this.status = "resolving";
+              });
+        });
+
     },
     onClickDoneResolving: function() {
       $.get(`/api/user/TS-done`, {ticketid: `${course_id}:${P.sess.uid}`}, (res) => {
