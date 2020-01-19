@@ -85,6 +85,7 @@ ReqWrapper.prototype.new_ticket = async function (cid, uid, notes) { // uid = st
         status: 'Waiting',
         notes,
         assignee: null,
+        created_at: utilmisc.now()
     });
     await Promise.all([this.emit_new_course_status(cid), this.emit_new_user_status(uid)]);
 };
@@ -117,7 +118,7 @@ ReqWrapper.prototype.emit_new_course_status = async function (ctid) {
 ReqWrapper.prototype.emit_new_user_status = async function (cuid) {
     const p = ('' + cuid).split(':');
     const uid = p[p.length - 1];
-    log('emit u ', uid, await this.get_user_status(uid))
+    // log('emit u ', uid, await this.get_user_status(uid))
     io.emit_user(uid, 'new_user_status', await this.get_user_status(uid));
 };
 
