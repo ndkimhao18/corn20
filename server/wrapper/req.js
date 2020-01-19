@@ -155,7 +155,9 @@ ReqWrapper.prototype.add_chat_msg = async function (cid, msg) {
         msg_id: mid,
         user_id: this.get_user_id(),
         full_name: this.req.session.user.full_name,
+        image: this.req.session.user.image,
         pinned: false,
+        created_at: utilmisc.now(),
         msg
     };
     await db.chats.puta(mid, m);

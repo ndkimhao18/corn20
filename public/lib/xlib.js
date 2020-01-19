@@ -20,5 +20,15 @@ window.xlib = {
                 msg
             })
         });
+    },
+
+    get_all_msg: async function (cid) {
+        return await fetch("/api/chat/" + cid, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
     }
 };

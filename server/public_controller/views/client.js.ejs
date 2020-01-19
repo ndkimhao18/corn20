@@ -127,6 +127,48 @@ Vue.component('queue-item', {
   `
 });
 
+
+Vue.component('chat-item', {
+  props: {
+    chat: Object
+  },
+  template: `
+    <div class="chat-message clearfix">
+      <img
+              :src="chat.image"
+              alt=""
+              width="32"
+              height="32"
+      />
+
+      <div class="chat-message-content clearfix">
+        <span class="chat-time">13:35</span>
+
+        <h5>John Doe</h5>
+
+        <p>
+          {{ chat.msg }}
+        </p>
+      </div>
+      <!-- end chat-message-content -->
+    </div>
+    <!-- end chat-message -->
+
+  `
+});
+
+let chat = new Vue({
+  el: '#chat-section',
+  data: {
+    chats: [{"course_id":"1810097","msg_id":"1810097:4857978315","user_id":25212877,"full_name":"Matthew L. Williams","pinned":false,"msg":"hi 1"},{"course_id":"1810097","msg_id":"1810097:4857980899","user_id":25212877,"full_name":"Matthew L. Williams","pinned":false,"msg":"hi 2"}]
+  },
+  methods: {
+    addChat: function(chat){
+      this.chats.push(chat);
+    }
+  }
+
+});
 let queue_status = new Vue({
   el: '#queue-status', 
   data: {
@@ -156,6 +198,7 @@ let user_list = new Vue({
   }
 
 });
+
 
 function userLogout() {
   console.log('logout');
