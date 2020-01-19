@@ -9,7 +9,6 @@
 <!-- Navigation -->
 <% include ./nav.ejs %>
 
-<% include ./chatbox.ejs %>
 
 <br /><br /><br /><br />
 
@@ -38,14 +37,13 @@
     <div class="col-md-8">
       <div class="card">
         <div class="card-header">
-          <%= sess.canvas.context_label %>
+          <%= P.sess.canvas.context_label %>
           <button type="button" class="btn btn-primary ml-auto">Get Help</button>
         </div>
         <div class='card-body'>
           <ul id='queue-status' class="list-group list-group-flush">
-            <queue-item v-for="(student, index) in students" 
-              :student="student"
-              :isLearner="isLearner"
+            <queue-item v-for="(ticket, index) in tickets" 
+              :student="ticket"
               :key="index"
               >
             </queue-item>

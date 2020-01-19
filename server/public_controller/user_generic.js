@@ -2,6 +2,7 @@ const express = require('express');
 const ReqWrapper = require('../wrapper/req');
 const router = module.exports = express.Router();
 const ash = require('express-async-handler');
+const db = require('../db');
 
 const CANVAS_URL = "https://canvas.instructure.com/";
 router.get('/', function(req, res) {
@@ -25,7 +26,6 @@ router.get('/courses/:id', ash(async(req, res, next) => {
   const { id } = req.params;
   const rw = new ReqWrapper(req, res, next);
   
-  console.log('req.params', req.params, 'id', id);
   if (!sess.canvas) {
     return res.redirect(CANVAS_URL);
   }
@@ -38,23 +38,29 @@ router.get('/courses/:id', ash(async(req, res, next) => {
     return res.redirect(CANVAS_URL);
   }
 
-  console.log('course', course);
   return res.render(__dirname + '/views/course.ejs', {
-    sess: sess,
-    course: course,
+    P: {
+      sess: sess,
+      course: course,
+    }
   });
 }));
 
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', ash(async(req, res, next) => {
   const sess = req.session;
   //if sess null?
   
   if (!sess.canvas) {
     return res.redirect(CANVAS_URL);
   }
-
+  let courses = await db.courses.get_all_async();
+  console.log('courses', courses);
   return res.render(__dirname + '/views/dashboard.ejs', {
-    sess: sess
+    P: {
+      sess: sess,
+      courses: courses,
+      course: null,
+    }
   });
-});
+}));
 

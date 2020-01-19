@@ -10,6 +10,10 @@
 <!-- Navigation -->
 <% include ./nav.ejs %>
 
+<br /><br /><br /><br /><br /><br /><br />
+<p>test</p>
+<%- JSON.stringify(P.courses) %>
+
 <div id='main'>
   <!-- Page Content -->
   <div class="container mt-5">
@@ -27,7 +31,7 @@
 
     <!-- Page Features -->
     <div id='course-listing' class="row text-center">
-      <course-listing-item v-for="(course, index) in courses"
+      <course-listing-item v-for="(course, index) in getCourses()"
         :course='course'
         :key='index'
       >
