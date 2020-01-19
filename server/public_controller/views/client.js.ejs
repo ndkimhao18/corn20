@@ -148,11 +148,9 @@ Vue.component('queue-item', {
             this.me.ticket.ticket_id == this.ticket.ticket_id;
     }, 
     isAbleToHelpNextInLineAsTeacher: function(){
-      let filtered = Object.values(this.rawTickets)
-      .filter((v) => v.status == 'Waiting');
       return !this.isLearner && 
           this.me.ticket == null &&
-          filtered.length > 0;
+          this.ticket.status == 'Waiting';
     },
   }
 });
@@ -244,10 +242,13 @@ let queue_status = new Vue({
     }, 
     onClickHelpNextInLine: function() {
       console.log('onClickHelpNextInLine');
-      const ticketid = this.tickets[0].ticket_id;
-      $.get(`/api/user/T-help-student`, {ticketid: ticketid+""}, (res) => {
-        notificationToast(`${res}`, 'info');
-      });
+      let ticketid = -1;
+      for(let d of this.tickets) if(d.status === 'Waiting') {ticketid = d.ticket_id; break;}
+      if(ticketid !== -1) {
+          $.get(`/api/user/T-help-student`, {ticketid: ticketid+""}, (res) => {
+            notificationToast(`${res}`, 'info');
+          });
+      }
     },
   },
   created: function() {
