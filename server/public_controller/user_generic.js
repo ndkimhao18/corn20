@@ -12,8 +12,9 @@ router.get('/', function(req, res) {
 router.post('/logout', (req, res) => {
   req.session.destroy((error) => {
     if(error){
-      return console.log(error);
+      console.log(error);
     }
+    res.json({ok:true})
   });
 });
 
@@ -29,8 +30,8 @@ router.get('/courses/:id', ash(async(req, res, next) => {
   if (!sess.canvas) {
     return res.redirect(CANVAS_URL);
   }
-  
-  let course = null; 
+
+  let course = null;
   try {
     course = await rw.get_course_status(id);
   } catch (e) {
