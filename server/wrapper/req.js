@@ -42,6 +42,8 @@ ReqWrapper.prototype.add_course_async = async function (cid, role) {
     ]);
 };
 
+// =====================================================================================================================
+
 const io = require('../express_io');
 ReqWrapper.prototype.get_course_status = async function (cid) {
     const ret = {
@@ -50,6 +52,7 @@ ReqWrapper.prototype.get_course_status = async function (cid) {
         users_info: {},
         course_info: await db.courses.geta(cid),
     };
+    //console.log(ret)
     const f = async (uid) => {
         //log(uid)
         uid = parseInt(uid);
@@ -65,8 +68,6 @@ ReqWrapper.prototype.get_course_status = async function (cid) {
     }
     for (let [key, value] of Object.entries(ret.tickets)) {
         const p = key.split(':');
-        value.course_id = p[0];
-        value.user_id = p[1];
         waits.push(f(value.user_id));
         if (value.assignee)
             waits.push(f(value.assignee));
@@ -79,21 +80,66 @@ ReqWrapper.prototype.new_ticket = async function (cid, uid, notes) { // uid = st
     const tid = cid + ':' + uid;
     await db.users.geta(uid);
     await db.tickets.puta(tid, {
-        // course_id: cid,
-        // user_id: uid,
+        course_id: cid,
+        user_id: uid,
         status: 'Waiting',
         notes,
+        assignee: null,
     });
+    await Promise.all([this.emit_new_course_status(cid), this.emit_new_user_status(uid)]);
 };
 
-ReqWrapper.prototype.upd_ticket_helping = async function (tid, uid) { // uid = teacher id
+ReqWrapper.prototype.upd_ticket_helping = async function (tid) {
     const ticket = await db.tickets.geta(tid);
     ticket.status = 'Helping';
     ticket.assignee = this.get_user_id();
-    await db.users.geta(uid);
     await db.tickets.puta(tid, ticket);
+    await Promise.all([
+        this.emit_new_course_status(tid),
+        this.emit_new_user_status(this.get_user_id()),
+        this.emit_new_user_status(tid)]);
 };
 
 ReqWrapper.prototype.upd_ticket_resolved = async function (tid) {
+    const {assignee} = await db.tickets.geta(tid);
     await db.tickets.dela(tid);
+    await Promise.all([
+        this.emit_new_course_status(tid),
+        this.emit_new_user_status(tid),
+        this.emit_new_user_status(assignee)]);
+};
+
+ReqWrapper.prototype.emit_new_course_status = async function (ctid) {
+    const cid = ('' + ctid).split(':')[0];
+    const stat = await this.get_course_status(cid);
+    io.emit_course(cid, 'new_course_status', stat);
+};
+ReqWrapper.prototype.emit_new_user_status = async function (cuid) {
+    const p = ('' + cuid).split(':');
+    const uid = p[p.length - 1];
+    log('emit u ', uid, await this.get_user_status(uid))
+    io.emit_user(uid, 'new_user_status', await this.get_user_status(uid));
+};
+
+ReqWrapper.prototype.get_my_status = async function () {
+    return this.get_user_status(this.get_user_id());
+};
+ReqWrapper.prototype.get_user_status = async function (uid) {
+    return {
+        info: await this.get_user_async(),
+        is_teacher: this.is_teacher(),
+        ticket: await (this.is_teacher() ? db.tickets.by_assignee : db.tickets.by_user_id).getan(uid),
+    };
+};
+
+// =====================================================================================================================
+
+ReqWrapper.prototype.get_all_chat = async function (cid) {
+    const obj = await utilmisc.streamToObject(db.chats.createReadStream({start: cid + ':', end: cid + ':~'}));
+    for (const [k, v] of obj) {
+        const p = k.split(':');
+        obj.course_id = p[0];
+        obj.msg_id = p[1];
+    }
+    const arr = Object.values(obj).sort((x, y) => x.msg_id - y.msg_id);
 };
