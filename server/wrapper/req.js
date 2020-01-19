@@ -123,7 +123,7 @@ ReqWrapper.prototype.emit_new_course_status = async function (ctid) {
 ReqWrapper.prototype.emit_new_user_status = async function (cuid) {
     const p = ('' + cuid).split(':');
     const uid = p[p.length - 1];
-    // log('emit u ', uid, await this.get_user_status(uid))
+    log('emit u ', uid, await this.get_user_status(uid))
     io.emit_user(uid, 'new_user_status', await this.get_user_status(uid));
 };
 
@@ -131,10 +131,11 @@ ReqWrapper.prototype.get_my_status = async function () {
     return this.get_user_status(this.get_user_id());
 };
 ReqWrapper.prototype.get_user_status = async function (uid) {
+    const u = await db.users.geta(uid);
     return {
-        info: await this.get_user_async(),
-        is_teacher: this.is_teacher(),
-        ticket: await (this.is_teacher() ? db.tickets.by_assignee : db.tickets.by_user_id).getan(uid),
+        info: u,
+        is_teacher: u.role !== 'Learner',
+        ticket: await (u.role !== 'Learner' ? db.tickets.by_assignee : db.tickets.by_user_id).getan(uid),
     };
 };
 
