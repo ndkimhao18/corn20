@@ -119,7 +119,7 @@ var explore_section = new Vue({
 
 Vue.component('queue-item', {
   props: {
-    student: Object,
+    ticket: Object,
   }, 
   template: `
     <li class="list-group-item d-flex align-items-center">
@@ -127,20 +127,21 @@ Vue.component('queue-item', {
         <img src="https://assets.servedby-buysellads.com/p/manage/asset/id/32054" alt="">
       </div>
       <div class="w-100">
-        <div class="user-name">{{ student.info.full_name }}</div>
-        <div class="message bg-light">Description: {{ student.notes.this_is_the_note }}</div>
+        <div class="user-name">{{ ticket.info.full_name }}</div>
+        <div class="message bg-light">Description: {{ ticket.notes.this_is_the_note }}</div>
       </div>
-      <span v-if="isLearner" class="date text-mutted ml-auto">Status: {{ student.status }}</span>
+      <span v-if="isLearner" class="date text-mutted ml-auto">Status: {{ ticket.status }}</span>
       <div v-else>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" 
-            v-on:click="onClickTeacherHelpStudent(student.ticketid)"
-            v-show="isAbleToHelpNextInLineAsTeacher()"
+            v-on:click="onClickTeacherHelpStudent(ticket.ticket_id)"
+            v-if="isAbleToHelpNextInLineAsTeacher"
             >
             Help
         </button>
+
          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" 
-            v-on:click="onClickTeacherMarkDone(student.ticketid)"
-            v-show=""
+            v-on:click="onClickTeacherMarkDone(ticket.ticket_id)"
+            v-if="isAbleToMarkDoneAsTeacher"
             >
             Done helping
         </button>
@@ -161,7 +162,21 @@ Vue.component('queue-item', {
           notificationToast(`res: ${res.err}`, 'error');
         }
       })
-    }
+    },
+  },
+  computed: {
+    isAbleToMarkDoneAsTeacher: function() {
+      return !this.isLearner && 
+            this.me.ticket &&
+            this.me.ticket.ticket_id == this.ticket.ticket_id;
+    }, 
+    isAbleToHelpNextInLineAsTeacher: function(){
+      let filtered = Object.values(this.rawTickets)
+      .filter((v) => v.status == 'Waiting');
+      return !this.isLearner && 
+          this.me.ticket == null &&
+          filtered.length > 0;
+    },
   }
 });
 
@@ -216,7 +231,6 @@ let queue_status = new Vue({
     getTickets: function() {
       this.tickets = [ ];
       for ( const key in this.rawTickets ) {
-       this.rawTickets[key].ticketid = key;
        this.rawTickets[key].info = this.users_info[this.rawTickets[key].user_id];
        this.tickets.push(this.rawTickets[key]); 
       }
@@ -247,25 +261,30 @@ let queue_status = new Vue({
     }, 
     onClickHelpNextInLine: function() {
       console.log('onClickHelpNextInLine');
-      const ticketid = this.tickets[0].ticketid;
+      const ticketid = this.tickets[0].ticket_id;
       $.get(`/api/user/T-help-student`, {ticketid: ticketid+""}, (res) => {
         notificationToast(`${res}`, 'info');
       });
     },
-    isAbleGetHelpAsStudent() {
-      return this.isLearner && this.me.ticket == null; 
-    },
-    isAbleToMarkDoneAsStudent() {
-      return this.isLearner && this.me.ticket != null;
-    },
-    isAbleToHelpNextInLineAsTeacher() {
-      return !this.isLearner && this.me.ticket == null;
-    }
   },
   created: function() {
     this.getTickets();
   },
-
+  computed: {
+    isAbleToHelpNextInLineAsTeacher: function(){
+      let filtered = Object.values(this.rawTickets)
+      .filter((v) => v.status == 'Waiting');
+      return !this.isLearner && 
+          this.me.ticket == null &&
+          filtered.length > 0;
+    },
+    isAbleToMarkDoneAsStudent: function(){
+      return this.isLearner && this.me.ticket != null;
+    },
+    isAbleGetHelpAsStudent: function(){
+      return this.isLearner && this.me.ticket == null; 
+    }
+  },
   mixins: [util_mixin],
 });
 
