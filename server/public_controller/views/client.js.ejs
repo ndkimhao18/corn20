@@ -1,4 +1,4 @@
-const isLearner = <%= (sess.role == 'Learner') ? true : false %>;
+const isLearner = <%= (P.sess.role == 'Learner') ? true : false %>;
 
 Vue.mixin({
   data() {
@@ -42,12 +42,12 @@ Vue.component('course-listing-item', {
       <div class="card h-100">
         <img class="card-img-top" src="http://placehold.it/500x325" alt="">
         <div class="card-body">
-          <h4 class="card-title">{{ course.name }}</h4>
+          <h4 class="card-title">{{ course.title }}</h4>
           <p style="text-align: left" class="card-text">Number of TA: {{ course.numTaActive }}
           <br> Number of students: {{ course.numStudentActive }}</p>
         </div>
         <div class="card-footer">
-          <a href="#" class="btn btn-primary btn-lg">Join</a>
+          <a :href="'/courses/' + course.course_id" class="btn btn-primary btn-lg">Join</a>
         </div>
       </div>
     </div>
@@ -57,33 +57,19 @@ Vue.component('course-listing-item', {
 var course_listing = new Vue({
   el: '#course-listing',
   data: {
-    courses: [
-      {
-        name: 'cs155',
-        numTaActive: 10,
-        numStudentActive: 1,
-      },
-      {
-        name: 'cs156',
-        numTaActive: 10,
-        numStudentActive: 1,
-      },
-      {
-        name: 'cs310',
-        numTaActive: 10,
-        numStudentActive: 1,
-      },
-      {
-        name: 'ecen',
-        numTaActive: 10,
-        numStudentActive: 1,
-      },
-      {
-        name: 'ecen',
-        numTaActive: 10,
-        numStudentActive: 1,
+    rawCourses: <%- (P.courses) ? JSON.stringify(P.courses) : JSON.stringify(null) %>,
+    courses: []
+  },
+  methods: {
+    getCourses: function() {
+      this.courses = [ ];
+      for (const key in this.rawCourses) {
+        this.rawCourses[key].numTaActive = 0;
+        this.rawCourses[key].numStudentActive = 0;
+        this.courses.push(this.rawCourses[key]);
       }
-    ]
+      return this.courses;
+    }
   }
 });
 
@@ -144,16 +130,7 @@ Vue.component('queue-item', {
 let queue_status = new Vue({
   el: '#queue-status', 
   data: {
-    students: [
-      {
-        name: 'student A', 
-        status: 'waiting'
-      }, 
-      {
-        name: 'student B',
-        status: 'helping'
-      }
-    ]
+    tickets: []
   },
   methods: {
     getQueueStatus: function() {
@@ -166,6 +143,19 @@ let queue_status = new Vue({
   mixins: [util_mixin],
 });
 
+let user_list = new Vue({
+  el: '#user-list',
+  data: {
+    users: <%- (P.course) ? JSON.stringify(P.course.users_info) : JSON.stringify(null) %>,
+    onlines: <%- (P.course) ? JSON.stringify(P.course.online) : JSON.stringify(null) %>,
+  },
+  methods: {
+    filteredTeacher: function() {
+
+    }
+  }
+
+});
 
 function userLogout() {
   console.log('logout');

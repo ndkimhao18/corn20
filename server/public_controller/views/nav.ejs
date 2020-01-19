@@ -11,6 +11,9 @@
       </form>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
+            <button type="button" class="btn btn-light">
+              Welcome back, <%=P.sess.user.full_name%>
+            </button>
             <button type="button" class="btn btn-link" onclick="userLogout()">
               Logout <i class="fas fa-user"></i>
             </button> 

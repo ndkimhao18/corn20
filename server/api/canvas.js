@@ -12,6 +12,7 @@ const ReqWrapper = require('../wrapper/req');
 router.post('/entry', ash(async (req, res, next) => {
     const rw = new ReqWrapper(req, res, next);
     const canvas = req.session.canvas = req.body;
+    log(req, 'Canvas info', canvas);
     const uid = req.session.uid = parseInt(canvas.custom_canvas_user_id);
     const role = req.session.role = canvas.roles;
 
@@ -19,10 +20,12 @@ router.post('/entry', ash(async (req, res, next) => {
     if (u === null) {
         req.session.user = u = {
             user_id: uid,
+            email: canvas.custom_canvas_user_login_id,
             full_name: canvas.lis_person_name_full,
             first_name: canvas.lis_person_name_given,
             last_name: canvas.lis_person_name_family,
             role,
+            image: canvas.user_image,
             courses: {}
         };
         log(req, "Creating new user: ", u);

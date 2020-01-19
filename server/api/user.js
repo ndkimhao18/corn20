@@ -14,19 +14,26 @@ router.get('/1', ash(async (req, res, next) => {
     res.set({'Content-Type': 'application/json; charset=utf-8'}).send(200, JSON.stringify(await rw.get_course_status(1810097), undefined, '  '));
     //res.json(await rw.get_course_status(1810097));
 }));
-router.get('/2', ash(async (req, res, next) => {
+
+router.get('/T-get-help', ash(async (req, res, next) => {
     const rw = new ReqWrapper(req, res, next);
-    await rw.new_ticket(1810097, 25212880, {this_is_the_note:"123"});
+
+    const { course_id, note } = req.query;
+    await rw.new_ticket(course_id, {this_is_the_note: note});
     res.json("ok");
 }));
-router.get('/3', ash(async (req, res, next) => {
+
+router.get('/T-help-student', ash(async (req, res, next) => {
     const rw = new ReqWrapper(req, res, next);
-    await rw.upd_ticket_helping("1810097:25212880");
+    const { courseid_learnerid } = req.query;
+    await rw.upd_ticket_helping(courseid_learnerid);
     res.json("ok");
 }));
-router.get('/4', ash(async (req, res, next) => {
+
+router.get('/TS-done', ash(async (req, res, next) => {
     const rw = new ReqWrapper(req, res, next);
-    await rw.upd_ticket_resolved("1810097:25212880");
+    const { courseid_learnerid } = req.query;
+    await rw.upd_ticket_resolved(courseid_learnerid);
     res.json("ok");
 }));
 
@@ -43,14 +50,15 @@ router.get('/pin/:pinned', ash(async (req, res, next) => {
 
 router.get('/get', ash(async (req, res, next) => {
     res.json({
-        a: await db.users.geta("123"),
-        a1: await db.users.geta("1234"),
-        //b: await db.users.geta("1233"),
-        //c: await db.users.byEmail.geta("123"),
-        d: await db.users.byEmail.geta("456"),
-        e: await db.users.byEmail.geta("4567"),
-        g: await db.users.byTag.get_all_async('1'),
-        h: await db.users.byTag.get_all_async('2')
+        // a: await db.users.geta("123"),
+        // a1: await db.users.geta("1234"),
+        // //b: await db.users.geta("1233"),
+        // //c: await db.users.byEmail.geta("123"),
+        // d: await db.users.byEmail.geta("456"),
+        // e: await db.users.byEmail.geta("4567"),
+        // g: await db.users.byTag.get_all_async('1'),
+        // h: await db.users.byTag.get_all_async('2')
+        e: await db.courses.get_all_async(),
     });
 }));
 router.get('/test', ash(async (req, res, next) => {
