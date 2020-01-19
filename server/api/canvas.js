@@ -13,7 +13,7 @@ router.post('/entry', ash(async (req, res, next) => {
     const rw = new ReqWrapper(req, res, next);
     const canvas = req.session.canvas = req.body;
     const uid = req.session.uid = parseInt(canvas.custom_canvas_user_id);
-    const role = canvas.roles;
+    const role = req.session.role = canvas.roles;
 
     let u = await rw.get_user_async_null();
     if (u === null) {
@@ -22,6 +22,7 @@ router.post('/entry', ash(async (req, res, next) => {
             full_name: canvas.lis_person_name_full,
             first_name: canvas.lis_person_name_given,
             last_name: canvas.lis_person_name_family,
+            role,
             courses: {}
         };
         log(req, "Creating new user: ", u);
@@ -44,5 +45,5 @@ router.post('/entry', ash(async (req, res, next) => {
     await rw.add_course_async(cid, role);
 
     res.redirect('/dashboard');
-    res.json("ok");
+    //res.json("ok");
 }));

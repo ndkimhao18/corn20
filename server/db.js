@@ -63,3 +63,6 @@ createDb('users', ['email']);
 
 // course_id, code, title, members: {user_id: <role>}
 createDb('courses', []);
+
+// course_id:user_id, status, createdAt
+createDb('tickets', []);

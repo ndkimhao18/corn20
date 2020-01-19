@@ -7,6 +7,29 @@ const {Validator} = require('node-input-validator');
 const db = require('../db');
 const utilmisc = require('../util/misc');
 
+const ReqWrapper = require('../wrapper/req');
+
+router.get('/1', ash(async (req, res, next) => {
+    const rw = new ReqWrapper(req, res, next);
+    res.set({'Content-Type': 'application/json; charset=utf-8'}).send(200, JSON.stringify(await rw.get_course_status(1810097), undefined, '  '));
+    //res.json(await rw.get_course_status(1810097));
+}));
+router.get('/2', ash(async (req, res, next) => {
+    const rw = new ReqWrapper(req, res, next);
+    await rw.new_ticket(1810097, 25212880, {this_is_the_note:"123"});
+    res.json("ok");
+}));
+router.get('/3', ash(async (req, res, next) => {
+    const rw = new ReqWrapper(req, res, next);
+    await rw.upd_ticket_helping("1810097:25212880", 25212880);
+    res.json("ok");
+}));
+router.get('/4', ash(async (req, res, next) => {
+    const rw = new ReqWrapper(req, res, next);
+    await rw.upd_ticket_resolved("1810097:25212880");
+    res.json("ok");
+}));
+
 router.get('/get', ash(async (req, res, next) => {
     res.json({
         a: await db.users.geta("123"),
