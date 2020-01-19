@@ -1,3 +1,9 @@
+<style>
+  #username{
+    font-size: 1rem;
+  }
+</style>
+
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
   <div class="container">
     <a class="navbar-brand" href="#">Help Me, TA's!</a>
@@ -10,10 +16,10 @@
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
         <ul class="navbar-nav ml-auto">
+          <li class="nav-item" id="username">
+            <a class="nav-link disabled" href="#"><%=P.sess.user.full_name%></a>
+          </li>
           <li class="nav-item">
-            <button type="button" class="btn btn-light">
-              Welcome back, <%=P.sess.user.full_name%>
-            </button>
             <button type="button" class="btn btn-link" onclick="userLogout()">
               Logout <i class="fas fa-user"></i>
             </button> 
