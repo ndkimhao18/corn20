@@ -1,4 +1,5 @@
 const isLearner = <%= (P.sess.role == 'Learner') ? true : false %>;
+const course_id = <%= (P.course_id) ? P.course_id : null %>;
 
 Vue.mixin({
   data() {
@@ -115,8 +116,8 @@ Vue.component('queue-item', {
         <img src="https://assets.servedby-buysellads.com/p/manage/asset/id/32054" alt="">
       </div>
       <div class="w-100">
-        <div class="user-name">{{ student.name }}</div>
-        <div class="message bg-light">Description: </div>
+        <div class="user-name">{{ student.info.full_name }}</div>
+        <div class="message bg-light">Description: {{ student.notes.this_is_the_note }}</div>
       </div>
       <span v-if="isLearner" class="date text-mutted ml-auto">Status: {{ student.status }}</span>
       <div v-else>
@@ -130,11 +131,37 @@ Vue.component('queue-item', {
 let queue_status = new Vue({
   el: '#queue-status', 
   data: {
-    tickets: []
+    rawTickets: <%- P.course ? JSON.stringify(P.course.tickets) : JSON.stringify(null) %>,
+    tickets: [],
+    users_info: <%- P.course ? JSON.stringify(P.course.users_info) : JSON.stringify(null) %>,
+    status: null,
   },
   methods: {
-    getQueueStatus: function() {
-      
+    getTickets: function() {
+      this.tickets = [ ];
+      for ( const key in this.rawTickets ) {
+       this.rawTickets[key].ticketid = key;
+       this.rawTickets[key].info = this.users_info[this.rawTickets[key].user_id];
+       this.tickets.push(this.rawTickets[key]); 
+      }
+      this.tickets = this.tickets.sort((i1, i2) => {
+        return (i1.created_at - i2.created_at);
+      })
+      return this.tickets;
+    },
+    onClickGetHelp: function() {
+      let queryParams = {
+        course_id: course_id,
+        note: ""
+      };
+
+      $.get(`/api/user/S-get-help`,queryParams, (res) => {
+        res = JSON.parse(res);
+        console.log('res', res);
+      });
+    },
+    onClickDoneResolving: function() {
+
     }
   },
   created: function() {

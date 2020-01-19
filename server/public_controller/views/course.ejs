@@ -7,8 +7,9 @@
   }
 </style>
 <!-- Navigation -->
-<% include ./nav.ejs %>
-
+<p>
+  <% include ./nav.ejs %>
+</p>
 
 <br /><br /><br /><br />
 
@@ -32,17 +33,17 @@
   </div>
 </div>
 
-<div class='container-fluid mt-5 split-left'>
+<div id='queue-status' class='container-fluid mt-5 split-left'>
   <div class="row justify-content-center mt-5">
     <div class="col-md-8">
       <div class="card">
         <div class="card-header">
           <%= P.sess.canvas.context_label %>
-          <button type="button" class="btn btn-primary ml-auto">Get Help</button>
+          <button type="button" class="btn btn-primary ml-auto" v-on:click="onClickGetHelp">Get Help</button>
         </div>
         <div class='card-body'>
-          <ul id='queue-status' class="list-group list-group-flush">
-            <queue-item v-for="(ticket, index) in tickets" 
+          <ul class="list-group list-group-flush">
+            <queue-item v-for="(ticket, index) in getTickets()" 
               :student="ticket"
               :key="index"
               >
