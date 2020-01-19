@@ -1,9 +1,13 @@
-<% include ./include.js.ejs %>
-<% include ./include.css.ejs %>
+<% include ./include.js.ejs %> <% include ./include.css.ejs %>
 
 <!-- Navigation -->
-<% include ./nav.ejs %>
+<% include ./nav.ejs %> <% include ./chatbox.ejs %>
 
+<script>
+  $(document).ready(function() {
+    $(".toast").toast("show");
+  });
+</script>
 <% include ./chatbox.ejs %>
 <% include ./queue_live_update.js.ejs %>
 
@@ -15,7 +19,7 @@
     <div class="sidebar-name">
       <!-- Pass username and display name to register popup -->
       <a href="javascript:register_popup('narayan-prusty', 'Narayan Prusty');">
-      <span class="ml-1"><span class="dot"></span>Narayan Prusty</span>
+        <span class="ml-1"><span class="dot"></span>Narayan Prusty</span>
       </a>
     </div>
     <hr>
@@ -23,13 +27,89 @@
     <div class="sidebar-name">
       <!-- Pass username and display name to register popup -->
       <a href="javascript:register_popup('narayan-prusty', 'Narayan Prusty');">
-      <span class="ml-1"><span class="dot"></span>YOYO</span>
+        <span class="ml-1"><span class="dot"></span>YOYO</span>
       </a>
     </div>
   </div>
 </div>
 
-<div id='queue-status' class='container-fluid mt-5 split-left'>
+<div class="container-fluid mt-5 split-left">
+  <div class="row justify-content-around mt-5">
+    <div class="col-4">
+      <div class="toast" data-autohide="false">
+        <div class="toast-header">
+          <strong class="mr-auto text-primary">Announcement 1</strong>
+          <small class="text-muted">5 mins ago</small>
+          <button
+            type="button"
+            class="ml-2 mb-1 close"
+            data-dismiss="toast"
+            aria-label="Close"
+          >
+            &times;
+          </button>
+        </div>
+        <div class="toast-body">
+          Description.......
+        </div>
+      </div>
+
+      <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-autohide="false">
+        <div class="toast-header">
+          <strong class="mr-auto">Announcement 2</strong>
+          <small class="text-muted">2 seconds ago</small>
+          <button
+            type="button"
+            class="ml-2 mb-1 close"
+            data-dismiss="toast"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="toast-body">
+          Description.........
+        </div>
+      </div>
+    </div>
+
+    <div id="queue-status" class="col-md-7">
+      <div class="card">
+        <div class="card-header">
+          <%= P.sess.canvas.context_label %>
+          <button
+            v-if="status=='needhelp' && isLearner"
+            type="button"
+            class="btn btn-primary ml-auto"
+            v-on:click="onClickGetHelp"
+          >
+            Get Help
+          </button>
+          <button
+            v-if="status=='resolving' && isLearner"
+            type="button"
+            class="btn btn-secondary ml-auto"
+            v-on:click="onClickDoneResolving"
+          >
+            Done resolving
+          </button>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <queue-item
+              v-for="(ticket, index) in getTickets()"
+              :student="ticket"
+              :key="index"
+            >
+            </queue-item>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div id="queue-status" class="container-fluid mt-5 split-left">
   <div class="row justify-content-center mt-5">
     <div class="col-md-8">
       <div class="card">
@@ -39,19 +119,19 @@
           <button v-if="status=='resolving' && isLearner" type="button" class="btn btn-secondary ml-auto" v-on:click="onClickDoneResolving">Done resolving</button>
           <button v-if="!getIsTeacherBusy && !isLearner && tickets.length > 0" type="button" class="btn btn-secondary ml-auto" v-on:click="onClickHelpNextInLine">Help next inline</button>
         </div>
-        <div class='card-body'>
+        <div class="card-body">
           <ul class="list-group list-group-flush">
             <queue-item v-for="(ticket, index) in tickets" 
               :student="ticket"
               :key="index"
-              >
+            >
             </queue-item>
           </ul>
         </div>
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- Sidebar -->
 

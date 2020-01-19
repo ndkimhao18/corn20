@@ -1,39 +1,46 @@
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>-->
 
-
-
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js'></script>
-<script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+  integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+  integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+  crossorigin="anonymous"
+></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-<script>  
-
-  function notificationToast (message, toast_type='info', timeOut='5000'){
-  //https://codeseven.github.io/toastr/demo.html
+<script>
+  function notificationToast(message, toast_type = "info", timeOut = "5000") {
+    //https://codeseven.github.io/toastr/demo.html
     toastr.options = {
-      "closeButton": true,
-      "debug": false,
-      "newestOnTop": true,
-      "progressBar": true,
-      "positionClass": "toast-top-right",
-      "preventDuplicates": false,
-      "onclick": null,
-      "showDuration": '300',
-      "hideDuration": "1000",
-      "timeOut": timeOut,
-      "extendedTimeOut": "1000",
-      "showEasing": "swing",
-      "hideEasing": "linear",
-      "showMethod": "fadeIn",
-      "hideMethod": "fadeOut"
-    }
+      closeButton: true,
+      debug: false,
+      newestOnTop: true,
+      progressBar: true,
+      positionClass: "toast-top-right",
+      preventDuplicates: false,
+      onclick: null,
+      showDuration: "300",
+      hideDuration: "1000",
+      timeOut: timeOut,
+      extendedTimeOut: "1000",
+      showEasing: "swing",
+      hideEasing: "linear",
+      showMethod: "fadeIn",
+      hideMethod: "fadeOut"
+    };
     toastr[toast_type](message);
   }
-</script>  
+</script>
 
 <script src="/socket.io/socket.io.js"></script>
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
@@ -42,9 +49,9 @@
 <script src="https://rawgit.com/moment/moment/2.24.0/min/moment.min.js"></script>
 
 <script>
-    Vue.prototype.moment = moment;
-    <% if(P.course_id) { %>
-    window.xlib.course_id = <%=P.course_id%>;
-    window.xlib.socket = xlib.open_socket_io(window.xlib.course_id);
-    <% } %>
+  Vue.prototype.moment = moment;
+  <% if(P.course_id) { %>
+  window.xlib.course_id = <%=P.course_id%>;
+  window.xlib.socket = xlib.open_socket_io(window.xlib.course_id);
+  <% } %>
 </script>
