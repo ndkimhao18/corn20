@@ -181,7 +181,7 @@
 
 <div id="live-chat">
     <header class="clearfix">
-        <h4>Mehmet Mert</h4>
+        <h4><%= P.sess.user.last_name.length>0?P.sess.user.last_name:P.sess.user.full_name %></h4>
 
 <!--        <span class="chat-message-counter" id="chat-message-counter">0</span>-->
     </header>

@@ -12,7 +12,7 @@
 
 <nav style="background-color: #d00000" class="navbar navbar-expand-md navbar-dark fixed-top">
   <div class="container">
-    <a class="navbar-brand" href="#">Help Me, TA's!</a>
+    <a class="navbar-brand" href="/dashboard">Help Me, TA's!</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -23,7 +23,7 @@
       </form>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item d-none d-lg-block" id="username">
-            <a class="nav-link disabled" href="#"><%=P.sess.user.full_name%></a>
+            <a class="nav-link" href="#"><%=P.sess.user.full_name%></a>
           </li>
           <li class="nav-item" id="logout">
             <a class="nav-link" href="#" onclick="userLogout()">Logout <i class="fas fa-user"></i></a>

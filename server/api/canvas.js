@@ -47,6 +47,7 @@ router.post('/entry', ash(async (req, res, next) => {
 
     await rw.add_course_async(cid, role);
 
-    res.redirect('/dashboard');
+    //res.redirect('/dashboard');
+    res.redirect('/courses/' + cid);
     //res.json("ok");
 }));
