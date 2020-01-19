@@ -25,8 +25,8 @@ router.get('/S-get-help', ash(async (req, res, next) => {
 
 router.get('/T-help-student', ash(async (req, res, next) => {
     const rw = new ReqWrapper(req, res, next);
-    const { courseid_learnerid } = req.query;
-    await rw.upd_ticket_helping(courseid_learnerid);
+    const { ticketid } = req.query;
+    await rw.upd_ticket_helping(ticketid);
     res.json("ok");
 }));
 
