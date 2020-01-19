@@ -216,7 +216,7 @@
         //     $('#chat-message-counter')[val === 0 ? 'hide' : 'show']();
         //     $('#chat-message-counter').text(val);
         // }
-        $("#live-chat").fadeOut(0);
+        $(".chat").slideToggle(0, "swing");
 
         $("#live-chat header").on("click", function () {
             // chatbox_open = true;
