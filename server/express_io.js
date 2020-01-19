@@ -27,7 +27,7 @@ exports.setup = function (_io) {
             log('User disconnected:', 'uid', uid, 'course_id', course_id);
             // delete conn[connKey][socket.id];
             if (course_id !== 0) {
-                setTimeout(() => rw.emit_new_course_status(course_id), 20);
+                setTimeout(() => rw.emit_new_course_status(course_id), 0);
             }
         });
     });
