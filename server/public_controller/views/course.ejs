@@ -5,7 +5,7 @@
 <% include ./chatbox.ejs %>
 <% include ./queue_live_update.js.ejs %>
 <!--<br /><br /><br /><br />-->
-<div class="mt-5">
+<div class="row mt-5">
    <div id="chat-sidebar" class="chat-sidebar">
       <h5 class="ml-3">Teachers</h5>
       <div class="sidebar-name">
@@ -21,16 +21,24 @@
 </div>
 
 <div class="row mt-5 split-left">
+	<div class="col-sm-1"> </div>
 	<!-- Left side annoucement -->
 	<div id="annoucement-list" class="col-sm-4 mt-5 justify-content-center">
-		<annoucement-item v-for="(annoucement, index) in annoucements"
-										:key="index"
-										:annoucement="annoucement">
-		</annoucement-item>
+		<div class="card">
+			<div class="card-header">
+				Announcements
+			</div>
+			<div class="card-body">
+				<annoucement-item v-for="(annoucement, index) in annoucements"
+								  :key="index"
+								  :annoucement="annoucement">
+				</annoucement-item>
+			</div>
+		</div>
 	</div>
 	<!-- End Left Announcement bar -->
 
-	<div id="queue-status" class="col-md-8 mt-5 justify-content-center">
+	<div id="queue-status" class="col-md-7 mt-5 justify-content-center">
 		<div class="card">
 			<div class="card-header">
 					<%= P.course.course_info.title %>

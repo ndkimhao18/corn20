@@ -327,25 +327,13 @@ Vue.component('annoucement-item', {
     }
   },
   template: `
-  
-    <div class="toast" data-autohide="false">
-      <p>test</p>
-      <div class="toast-header">
-          <strong class="mr-auto text-primary">{{ 'From:' + annoucement.full_name }}</strong>
-          <small class="text-muted">5 mins ago</small>
-          <button
-            type="button"
-            class="ml-2 mb-1 close"
-            data-dismiss="toast"
-            aria-label="Close"
-            >
-          &times;
-          </button>
-      </div>
-      <div class="toast-body">
-          {{ annoucement.msg }}
-      </div>
-    </div>
+        <div class="toast show myannounce">
+            <div class="toast-header">
+                <strong class="mr-auto text-primary">{{'From: ' + annoucement.full_name}}</strong>
+                <small class="text-muted">{{ moment(annoucement.created_at).fromNow() }}</small>
+            </div>
+            <div class="toast-body">{{ annoucement.msg }}</div>
+        </div>
   `
 });
 
@@ -357,9 +345,16 @@ let vue_annoucement = new Vue({
   methods: {
     setAnnoucement: function(data) {
       this.annoucements = data;
+      // this.$forceUpdate();
+      // setTimeout(() => $(".toast").toast("show"), 0);
     },
     addOrRemove: function(d) {
       if (d.pinned) {
+        for (let i = 0; i < array.length; i++) {
+          if (array[i].msg_id === d.msg_id) {
+              return;
+          }
+        }
         this.annoucements.push(d);
       } else {
         var array = this.annoucements;
@@ -370,12 +365,11 @@ let vue_annoucement = new Vue({
           }
         }
       }
+      // this.$forceUpdate();
+      // setTimeout(() => $(".toast").toast("show"), 0);
     },
   },
   mounted: function() {
-    // setTimeout(() => {
-      $(".toast").toast("show");
-    // }, 200);
   }
 });
 
