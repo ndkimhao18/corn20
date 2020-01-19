@@ -1,10 +1,46 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-
+<link
+  href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+  rel="stylesheet"
+  id="bootstrap-css"
+/>
+<link
+  rel="stylesheet"
+  href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"
+/>
+<link
+  href="https://fonts.googleapis.com/css?family=Poppins&display=swap"
+  rel="stylesheet"
+/>
 
 <style>
+  .dot {
+    height: 8px;
+    width: 8px;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  body {
+    background-color: #f5f6f7;
+  }
+  .ml-3 {
+    font-weight: 500;
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.705);
+  }
+
+  .ml-1 {
+    font-weight: 100;
+    font-size: 15px;
+  }
   h5 {
-  padding-bottom: 5px;
+    padding-bottom: 5px;
+  }
+
+  hr {
+    border: 1px solid rgba(0, 0, 0, 0.075);
   }
 
   .split-left {
@@ -16,80 +52,81 @@
     top: 0;
   }
   .chat-sidebar {
-  width: 20%;
-  position: fixed;
-  height: 100%;
-  right: 0px;
-  top: 0px;
-  padding-top: 65px;
-  padding-bottom: 10px;
-  border: 1px solid rgba(29, 49, 91, 0.3);
-  background: lightsteelblue;
-  overflow: scroll;
+    width: 20%;
+    position: fixed;
+    height: 100%;
+    right: 0px;
+    top: 0px;
+    padding-top: 65px;
+    padding-bottom: 10px;
+    border: 2px solid rgba(0, 0, 0, 0.075);
+    overflow: scroll;
+    font-family: "Poppins", sans-serif;
+    color: rgba(0, 0, 0, 0.87);
   }
   .sidebar-name {
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-bottom: 3px;
-  margin-bottom: 4px;
-  font-size: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 3px;
+    margin-bottom: 4px;
+    font-size: 15px;
   }
   .sidebar-name span {
-  padding-left: 5px;
+    padding-left: 5px;
   }
   .sidebar-name a {
-  display: block;
-  height: 5%;
-  text-decoration: none;
-  color: inherit;
+    display: block;
+    height: 5%;
+    text-decoration: none;
+    color: inherit;
   }
   .sidebar-name:hover {
-  background-color: #e1e2e5;
+    background-color: rgba(45, 59, 69, 0.089);
   }
   .sidebar-name img {
-  width: 32px;
-  height: 32px;
-  vertical-align: middle;
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
   }
   .popup-box {
-  display: none;
-  position: fixed;
-  bottom: 0px;
-  right: 220px;
-  height: 285px;
-  background-color: rgb(237, 239, 244);
-  width: 300px;
-  border: 1px solid rgba(29, 49, 91, 0.3);
+    display: none;
+    position: fixed;
+    bottom: 0px;
+    right: 220px;
+    height: 285px;
+    background-color: rgb(237, 239, 244);
+    width: 300px;
+    border: 1px solid rgba(29, 49, 91, 0.3);
   }
   .popup-box .popup-head {
-  background-color: #6d84b4;
-  padding: 5px;
-  color: white;
-  font-weight: bold;
-  font-size: 14px;
-  clear: both;
+    background-color: #6d84b4;
+    padding: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    clear: both;
   }
   .popup-box .popup-head .popup-head-left {
-  float: left;
+    float: left;
   }
   .popup-box .popup-head .popup-head-right {
-  float: right;
-  opacity: 0.5;
+    float: right;
+    opacity: 0.5;
   }
   .popup-box .popup-head .popup-head-right a {
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
   }
   .popup-box .popup-messages {
-  height: 100%;
-  overflow-y: scroll;
+    height: 100%;
+    overflow-y: scroll;
   }
 
-    .card-course-cover {
-        width:  100%; /*or 70%, or what you want*/
-        height: 175px; /*or 70%, or what you want*/
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
+  .card-course-cover {
+    width: 100%; /*or 70%, or what you want*/
+    height: 175px; /*or 70%, or what you want*/
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 </style>
