@@ -12,6 +12,7 @@ const ReqWrapper = require('../wrapper/req');
 router.post('/entry', ash(async (req, res, next) => {
     const rw = new ReqWrapper(req, res, next);
     const canvas = req.session.canvas = req.body;
+    log(req, 'Canvas info', canvas);
     const uid = req.session.uid = parseInt(canvas.custom_canvas_user_id);
     const role = req.session.role = canvas.roles;
 
