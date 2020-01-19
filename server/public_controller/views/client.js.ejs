@@ -161,7 +161,7 @@ Vue.component('chat-item', {
   },
   data: function() {
     return {
-      pinned: this.chat.pinned
+      pinned: !this.chat.pinned
     }
   },
   template: `
@@ -180,7 +180,7 @@ Vue.component('chat-item', {
           {{ chat.last_name.length > 0 ? chat.last_name : chat.full_name }}
           <button class="float-right mr-3 btn" 
               v-on:click="toggle_pin()"
-              :style="pinned ? 'font-size:12px;color:#ddd' : 'font-size:11px;'"
+              :style="pinned ? 'font-size:12px' : 'font-size:10px;color:#ddd'"
             >
               {{ pinned ? 'pin' : 'unpin'   }}
           </button>
@@ -197,8 +197,9 @@ Vue.component('chat-item', {
   methods: {
     toggle_pin: function () {
       let data = this.pinned ? 1 : 0;
-      $.get(`api/user/pin/${data}`, { msg_id: this.chat.msg_id+""}, (res) => {
+      $.get(`/api/user/pin/${data}`, { msg_id: this.chat.msg_id+""}, (res) => {
         console.log('onClickPinPost', res);
+        this.pinned = !this.pinned;
       });
     },
   }
@@ -350,11 +351,6 @@ let vue_annoucement = new Vue({
     },
     addOrRemove: function(d) {
       if (d.pinned) {
-        for (let i = 0; i < array.length; i++) {
-          if (array[i].msg_id === d.msg_id) {
-              return;
-          }
-        }
         this.annoucements.push(d);
       } else {
         var array = this.annoucements;
