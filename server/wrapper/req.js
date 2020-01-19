@@ -76,7 +76,8 @@ ReqWrapper.prototype.get_course_status = async function (cid) {
     return ret;
 };
 
-ReqWrapper.prototype.new_ticket = async function (cid, uid, notes) { // uid = student id
+ReqWrapper.prototype.new_ticket = async function (cid, notes) { // uid = student id
+    const uid = this.get_user_id();
     const tid = cid + ':' + uid;
     await db.users.geta(uid);
     await db.tickets.puta(tid, {

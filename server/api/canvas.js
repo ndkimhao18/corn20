@@ -20,6 +20,7 @@ router.post('/entry', ash(async (req, res, next) => {
     if (u === null) {
         req.session.user = u = {
             user_id: uid,
+            email: canvas.custom_canvas_user_login_id,
             full_name: canvas.lis_person_name_full,
             first_name: canvas.lis_person_name_given,
             last_name: canvas.lis_person_name_family,
