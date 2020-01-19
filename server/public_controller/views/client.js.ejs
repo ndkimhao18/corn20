@@ -1,5 +1,6 @@
 const isLearner = <%= (P.sess.role == 'Learner') ? true : false %>;
 const course_id = <%= (P.course_id) ? P.course_id : null %>;
+const P = <%- (P) ? JSON.stringify(P) : null %>;
 
 Vue.mixin({
   data() {
@@ -128,13 +129,58 @@ Vue.component('queue-item', {
   `
 });
 
+
+Vue.component('chat-item', {
+  props: {
+    chat: Object
+  },
+  template: `
+    <div class="chat-message clearfix">
+      <img
+              :src="chat.image"
+              alt=""
+              width="32"
+              height="32"
+      />
+
+      <div class="chat-message-content clearfix">
+        <span class="chat-time">{{ moment(chat.created_at).fromNow() }}</span>
+
+        <h5>{{ chat.last_name }}</h5>
+
+        <p>
+          {{ chat.msg }}
+        </p>
+      </div>
+      <!-- end chat-message-content -->
+    </div>
+    <!-- end chat-message -->
+
+  `
+});
+
+let vueChat = new Vue({
+  el: '#chat-section',
+  data: {
+    chats: [],
+  },
+  methods: {
+    addChat: function(chat){
+      this.chats.push(chat);
+    },
+    setChats: function(chats){
+      this.chats = chats;
+    }
+  }
+
+});
 let queue_status = new Vue({
   el: '#queue-status', 
   data: {
     rawTickets: <%- P.course ? JSON.stringify(P.course.tickets) : JSON.stringify(null) %>,
     tickets: [],
     users_info: <%- P.course ? JSON.stringify(P.course.users_info) : JSON.stringify(null) %>,
-    status: null,
+    status: <%- P.me.ticket ? JSON.stringify("resolving") : JSON.stringify("needhelp") %>,
   },
   methods: {
     getTickets: function() {
@@ -156,12 +202,18 @@ let queue_status = new Vue({
       };
 
       $.get(`/api/user/S-get-help`,queryParams, (res) => {
-        res = JSON.parse(res);
+        if (res != "ok") {
+          notificationToast(res)
+        }
         console.log('res', res);
+        this.status = "resolving";
       });
     },
     onClickDoneResolving: function() {
-
+      $.get(`/api/user/TS-done`, {ticketid: `${course_id}:${P.sess.uid}`}, (res) => {
+        console.log('res', res);
+        this.status = "needhelp"
+      });
     }
   },
   created: function() {
@@ -183,6 +235,7 @@ let user_list = new Vue({
   }
 
 });
+
 
 function userLogout() {
   console.log('logout');
