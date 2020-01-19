@@ -3,34 +3,6 @@ const course_id = <%= (P.course_id) ? P.course_id : null %>;
 const P = <%- (P) ? JSON.stringify(P) : null %>;
 const me = <%- (P && P.me) ? JSON.stringify(P.me) : null %>;
 
-Vue.mixin({
-  data() {
-    return {
-      isLearner: isLearner,
-      me: me,
-      rawTickets: <%- P.course ? JSON.stringify(P.course.tickets) : JSON.stringify(null) %>,
-    }
-  },
-  methods: {
-    isBusy: function() {
-      return this.me.ticket != null;
-    },
-    updateMe: function(newData) {
-      this.isLearner = !newData.is_teacher;
-      this.me = newData;
-    },
-  }
-})
-
-let util_mixin = {
-  data() {
-    return {
-    }
-  },
-  methods: {
-  }
-}
-
 var app = new Vue({
   el: '#app',
   data: {
@@ -120,6 +92,9 @@ var explore_section = new Vue({
 Vue.component('queue-item', {
   props: {
     ticket: Object,
+    isLearner: Boolean, 
+    me: Object,
+    rawTickets: Object
   }, 
   template: `
     <li class="list-group-item d-flex align-items-center">
@@ -218,6 +193,9 @@ let queue_status = new Vue({
     status: <%- P.me.ticket ? JSON.stringify("resolving") : JSON.stringify("needhelp") %>,
     tstatus: <%- P.me.ticket ? JSON.stringify("resolving") : JSON.stringify("available") %>,
     isAbleToHelp: false,
+    isLearner: isLearner,
+    me: me,
+    rawTickets: <%- P.course ? JSON.stringify(P.course.tickets) : JSON.stringify({ }) %>,
   },
   methods: {
     updateData: function(newData) {
@@ -227,6 +205,9 @@ let queue_status = new Vue({
       this.tstatus = this.me.ticket ? 'resolving' : 'available';
       this.tickets = this.getTickets();
       this.isAbleToHelp = false;
+    },
+    updateMe: function(newData) {
+      this.me = newData;
     },
     getTickets: function() {
       this.tickets = [ ];
@@ -285,7 +266,6 @@ let queue_status = new Vue({
       return this.isLearner && this.me.ticket == null; 
     }
   },
-  mixins: [util_mixin],
 });
 
 let user_list = new Vue({

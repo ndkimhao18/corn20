@@ -87,6 +87,9 @@
           <ul class="list-group list-group-flush">
             <queue-item v-for="(ticket, index) in tickets" 
               :ticket="ticket"
+              :isLearner="isLearner"
+              :me="me"
+              :raw-tickets="rawTickets"
               :key="index"
             >
             </queue-item>
