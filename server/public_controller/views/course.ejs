@@ -11,24 +11,21 @@
 <% include ./chatbox.ejs %>
 <% include ./queue_live_update.js.ejs %>
 
-<br /><br /><br /><br />
+<!--<br /><br /><br /><br />-->
 
 <div class="mt-5">
-  <div class="chat-sidebar">
+  <div id="chat-sidebar" class="chat-sidebar">
     <h5 class="ml-3">Teachers</h5>
     <div class="sidebar-name">
+      <sidebar-item v-for="(item, index) in teachers" :item="item" />
       <!-- Pass username and display name to register popup -->
-      <a href="javascript:register_popup('narayan-prusty', 'Narayan Prusty');">
-        <span class="ml-1"><span class="dot"></span>Narayan Prusty</span>
-      </a>
+<!--      <a href="javascript:register_popup('narayan-prusty', 'Narayan Prusty');">-->
     </div>
     <hr>
     <h5 class="ml-3">Students</h5>
     <div class="sidebar-name">
+      <sidebar-item v-for="(item, index) in students" :item="item" />
       <!-- Pass username and display name to register popup -->
-      <a href="javascript:register_popup('narayan-prusty', 'Narayan Prusty');">
-        <span class="ml-1"><span class="dot"></span>YOYO</span>
-      </a>
     </div>
   </div>
 </div>
@@ -140,3 +137,4 @@
 <script>
   <% include ./client.js.ejs %>
 </script>
+<script src="/lib/sidebar.js"></script>
