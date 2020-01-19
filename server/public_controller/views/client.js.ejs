@@ -136,7 +136,7 @@ Vue.component('chat-item', {
   template: `
     <div class="chat-message clearfix">
       <img
-              :src="chat.image"
+              :src="'http://localhost:3000/api/chat/dl_img?url=' + chat.image"
               alt=""
               width="32"
               height="32"
