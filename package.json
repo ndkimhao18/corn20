@@ -25,7 +25,7 @@
     "node-input-validator": "^4.1.0",
     "password-hash-and-salt": "^0.1.4",
     "request": "^2.88.0",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.5.0",
     "subleveldown": "^4.1.4"
   },
   "engines": {
